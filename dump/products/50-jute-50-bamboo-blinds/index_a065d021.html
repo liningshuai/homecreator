@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+    <link href="/assets/css/carousel.css" rel="stylesheet"/>
+  <script>
+   (function(){
+            if (window.__remixContext) delete window.__remixContext;
+            if (window.__remixManifest) delete window.__remixManifest;
+            if (window.__remixRouteModules) delete window.__remixRouteModules;
+            const ofetch = window.fetch;
+            window.fetch = function(...args){
+                const u = typeof args[0]==='string'?args[0]:args[0].url;
+                if(u && u.includes('_data=')){ return Promise.reject(new Error('Remix routing disabled')); }
+                return ofetch.apply(this,args);
+            };
+            const oopen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(m,u){
+                if(u && u.includes('_data=')) throw new Error('Remix routing disabled');
+                return oopen.apply(this,arguments);
+            };
+            document.addEventListener('click',function(e){
+                const link = e.target.closest('a');
+                if(link && link.href && !link.href.startsWith('javascript:') && !link.href.startsWith('#') && !link.target){
+                    if(link.href.includes('?_data=')){
+                        e.preventDefault();
+                        window.location.href = link.href.split('?_data=')[0];
+                    }
+                }
+            },true);
+            const ops = history.pushState, ors = history.replaceState;
+            history.pushState = function(s,t,u){ if(u && u.includes('_data=')) u = u.split('?_data=')[0]; if(u && u!==window.location.href){ window.location.href=u; return; } return ops.apply(this,arguments); };
+            history.replaceState = function(s,t,u){ if(u && u.includes('_data=')) u = u.split('?_data=')[0]; return ors.apply(this,arguments); };
+            console.log('SPA disabled');
+        })();
+  </script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Homecreator | 50% Jute 50% Bamboo Blinds
+  </title>
+  <link href="/fonts/fonts.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/app-CGNHybmk.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/splide.min-D3IVrRzL.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/lightgallery-bundle.min-CQ5nw7dX.css" rel="stylesheet"/>
+  <link href="/assets/bb9821a468.unknown" rel="preconnect"/>
+  <link href="https://shop.app" rel="preconnect"/>
+  <link href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAABDlBMVEUAAAAiHh8iHh8iHyAdGRsfHR0iHyAiGxseGxwdGhsfGx0fGx0fGhwaFxgiHyAiHx8gHx8fGx0dGhscGRohGRojHR4cGBohHR4iHR4hHh8iHh8hHR8hHR8iHh8hHR4hHR4gHB0hHR4gGx4gHB0iHh8iHh8iHh4iHh8fGx0hHR4fHB0hHR8hGxwiHh8iHiAiHh8iHh8iHh8fHB4jHyAiHh8iHiAiHh8cGRohHR4hHR8fGhsfHBwgHB0iHh8iHh8iHh8cGRogGhsiHh8gGx0eGhsiHh8hHR4iHSAhHh8hHB0dGhshHR4jHh8bFxkNDAwaFxcLCQkgHR4eHBwXFBQVEhIZFRcPDQ4QDg8kICEiHh9LwK/IAAAAWHRSTlMA/kO/AyTfYRknIR0NB/r1fCkWDwvVBTTb08+voeuneLaOUSzjnoiBVUlFOhLny8azpGj89/HuPj03Y1gw5diqTBSahF3BlotwbMCRcnJCnjK6mY96iEZpJpV/3wAABH9JREFUWMPtlflT2kAUx1kgkBASIEEgB0kIV7hvkBu5BAXU1trN/+P9EVUsBREf+p0+maYWTb7PnnXd2P7b/+6hSi3NJip7eAX/Z1kJiWwCXlKMF8DeKbJAYtQory+/4p7MNAZ9jEbrWPfzeM9/3nA/eNDASNBEhFuFH+0Qp905+8fS3XwnLj9jijCwrX96lP+TPa74MNotujR1FSqYzYi65/JgsvGIhhHZysK/pBuKYFxIanTznP980bFVcN1ye15dqH1ZAHjhOSmz2w/bchRcCh3yNeCGHcRFoAdijmr/Z1yH+GCrNO7lDbfBYyijlXvY0IwXi2zULQ7g98v6uZHqYlNh5rLf+QfVmdW275vuN/aun5ooIYYy5xuJ2f3l0zULKU2B7H2lsOEaQ7mOn1ipkhjLvpQQ1uFDyNlCGOcMFnXsEodVS8xvXNhlJCq8T/jR2NoRlT7GTiib2qt9cF/bByT75U9JSDcvHkM/7n8C4cPsZHxiDxe4lwKUqwV/W3+cHzak2ID1JfaV00o+FownuSd2yaVEPYJt/bfs+BzE8FEPjGVC+6YVzk9S3i34nDrAd7ai6swEDgSy3LvY8vO4fIxS2p4j3yVuX2oTAlrlZ3Phh1ie09WtTquuWRjP1Myc+tCqHmjxvcF174eoEG6B6twamBGUi+l8yy1AkhV7nreBoLuKuDvK1ep/RnhqkUWiWoAVkuRRQKgtpl5ukoBm/1yNeDcHqTcSvNQrvxI8SFfZcTZ+KxSR6zUfXuc74I64YXL3nNl9bVWQDgh6+/b15q7cE1cweBexiIIudJUcBfc07M6Z/5LiyCXWOy7uDM4m9O5ayC5Fq1iX8LpBaQSHWZ26TlDV0+pUhMhMR2HJkWs0fix8ZAERTJvZdWVBq4rWd6Wz1TggLbLz8l74oQnvNBg7LQshC0UCqVJK0h3VTWTfz2UiwkwFUsOVtcizKefeovO266mq3EmvtAirqEFuK0o6UuvraVcCBPPawDVog+JVuPIBQyvS84wu54vHRdlIxiKd65vlwFIwa53L3mbc3qBzUpgewbCrkMHsnlYKTXMah1i78qL+VBCJUHfrVbAC4HxHAkYphPBSHnRcdwvIiyuSFipRYRdk/3blJgjVEh7IE+vl9mV3eu+wEh+iSCcLkaFWAue9tRSo6+M9vVNxCAn/y6kHQC9AWhjXL6FBKxujGeVKbxuP4UGAKiTgCChV7e3Z8hjrLoUcwA4EkHyBWBjODr/siIJMmT7JOC0ea6bfy0AozF1DiAVPQmgW6Onjf2ItWnnScA3AIzkm5sbxxFL6oyNnpwGVF0YY7Q1E+3MNOHXXwdtdLpwEtAZPAPMd4ZqbL1eM83IggFA/xigZgHsMc3heNC0crksSdJwqCiVSkWWk8mkPJRiGacFODbKtTlsc72W3d5qXT5bDqxtWdiyXK5H2o4Bgh3XuXOQaoKcD1Jg3INzAdCFhEoffFwzSrEE2x8b55aKUjd/CB5Nu+HgGQCGGrmNQOhgPx/oBbjQGQAnT4TjnO2/VP2C1RBsSm3Ik+/AAAAAElFTkSuQmCC" rel="icon" type="image/png"/>
+ </head>
+ <body>
+  <header class="transition-transform duration-300 sticky top-0 bg-light-cyan z-50 translate-y-0">
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+   <div class="container w-full py-5 md:py-6 lg:py-8">
+    <div class="flex justify-between w-full">
+     <div class="flex items-center gap-4 md:gap-6">
+      <div class="block lg:hidden">
+       <button title="Open Menu" type="button">
+        <svg aria-hidden="true" class="w-6 h-6" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+         <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round">
+         </path>
+        </svg>
+       </button>
+      </div>
+      <a class="inline-block" data-discover="true" href="../../">
+       <img alt="Homecreator Logo" class="w-[150px] md:w-[170px] lg:w-[230px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+      </a>
+     </div>
+     <div class="flex items-center justify-between gap-x-4 md:gap-x-6">
+      <a class="hidden text-sm md:inline-block hover:underline" href="mailto:info@homecreator.com.au">
+       info@homecreator.com.au
+      </a>
+      <!--$-->
+      <button class="relative" title="Open Cart" type="button">
+       <svg aria-hidden="true" class="relative z-0 w-6 h-6" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" stroke-linecap="round" stroke-linejoin="round">
+        </path>
+       </svg>
+      </button>
+      <!--/$-->
+     </div>
+    </div>
+    <div class="hidden lg:block">
+     <nav class="flex items-center justify-center w-full mt-8 font-semibold text-center gap-y-6 gap-x-8 lg:justify-between" role="navigation">
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../../">
+       Home
+      </a>
+      <div class="relative inline-block font-semibold text-left group" data-headlessui-state="">
+       <div>
+        <a href="/collections/" class="inline-flex items-center justify-center w-full leading-none rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-black underline-offset-8 decoration-2 group-hover:underline"><div class="nav-item dropdown">
+                <button class="inline-flex items-center justify-center leading-none rounded-md focus:outline-none underline-offset-8 decoration-2 hover:underline">
+                    <span>Custom made-to-order</span>
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="nav-dropdown dropdown-content">
+                    <a href="/collections/plantation-shutters/">Plantation Shutters</a>
+                    <a href="/collections/sheer-curtains/">S Fold Curtains</a>
+                    <a href="/collections/bamboo-jute-woven-roman-blinds/">Bamboo & Jute Woven Roman Blinds</a>
+                    <a href="/collections/custom-blockout-roller-blinds/">Roller Blinds</a>
+                </div>
+            </div></a>
+         <svg aria-hidden="true" class="w-5 h-5 ml-2 -mr-1" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke-linecap="round" stroke-linejoin="round">
+          </path>
+         </svg>
+        </button>
+       </div>
+      </div>
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../../pages/guides/">
+       Guides
+      </a>
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../../pages/gallery/">
+       Gallery
+      </a>
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../../pages/quote-and-order/">
+       Quote and Order
+      </a>
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../../pages/contact/">
+       Contact
+      </a>
+     </nav>
+    </div>
+   </div>
+  </header>
+  <main>
+   <div>
+    <div class="max-w-[1500px] mx-auto pt-4 mb-8">
+     <div class="px-4 mb-4 xl:px-6">
+      <ul class="flex items-center gap-2 text-sm font-semibold">
+       <li class="flex items-center gap-2">
+        <a class="text-gray-500 hover:underline hover:text-black" data-discover="true" href="../../">
+         Home
+        </a>
+        <span>
+         <svg aria-hidden="true" class="w-4 h-4" data-slot="icon" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <path clip-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" fill-rule="evenodd">
+          </path>
+         </svg>
+        </span>
+       </li>
+       <li>
+        <span>
+         50% Jute 50% Bamboo Blinds
+        </span>
+       </li>
+      </ul>
+     </div>
+     <div class="grid gap-12 md:gap-8 lg:gap-12 md:flex xl:gap-20 md:px-4 xl:px-6">
+      <div class="w-full overflow-hidden md:overflow-visible md:w-2/5 lg:w-1/3">
+       <div class="px-4 mb-0 md:px-0 md:mb-12">
+        <div class="w-full px-0">
+         <div class="relative w-full h-full overflow-hidden">
+          <div aria-labelledby="product media carousel" class="splide p-1 border border-solid rounded-md border-black/50 [&amp;:not(.is-initialized)]:max-h-[600px]">
+           <div class="splide__track">
+            <ul class="splide__list">
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/d18-06.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-026.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-026.jpg?v=1673482451" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-025.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-025.jpg?v=1673482453" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-006.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-006.jpg?v=1673482452" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-004.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-004.jpg?v=1673482451" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/d19-22.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-22.jpg?v=1673482451" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/d19-05.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-05.jpg?v=1673482452" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+             <li class="splide__slide flex w-full h-full">
+              <div class="flex items-center w-full h-full">
+               <img alt="image" class="object-contain w-full h-full" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/products/d19-03.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-03.jpg?v=1673482451" style="aspect-ratio:1/1" width="800"/>
+              </div>
+             </li>
+            </ul>
+           </div>
+           <div class="media-carousel-progress bg-[#ccc] md:hidden">
+            <div class="media-carousel-progress-bar bg-primary h-1 transition-[width] duration-500 w-0">
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="order-2 w-full mt-4 overflow-hidden lg:h-full lg:order-1 shrink-0">
+          <div class="splide [&amp;_.is-active]:!border-black [&amp;_.is-active]:!border-2 [&amp;_.is-active]:rounded flex w-full h-[70px]">
+           <button class="bg-[#FFF3DF] rounded-md h-full flex items-center justify-center" title="Previous Slide" type="button">
+            <svg aria-hidden="true" class="w-5 h-5" data-slot="icon" fill="currentColor" stroke-width="2" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+             <path clip-rule="evenodd" d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z" fill-rule="evenodd">
+             </path>
+            </svg>
+           </button>
+           <div class="splide__track flex-1">
+            <ul class="splide__list">
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/d18-06.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-026.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-026.jpg?v=1673482451&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-026.jpg?v=1673482451&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-026.jpg?v=1673482451&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-025.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-025.jpg?v=1673482453&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-025.jpg?v=1673482453&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-025.jpg?v=1673482453&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-006.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-006.jpg?v=1673482452&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-006.jpg?v=1673482452&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-006.jpg?v=1673482452&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/ju-b-004.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-004.jpg?v=1673482451&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-004.jpg?v=1673482451&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-004.jpg?v=1673482451&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/d19-22.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-22.jpg?v=1673482451&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-22.jpg?v=1673482451&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-22.jpg?v=1673482451&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/d19-05.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-05.jpg?v=1673482452&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-05.jpg?v=1673482452&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-05.jpg?v=1673482452&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+             <li class="splide__slide block h-auto !w-[70px] overflow-hidden">
+              <img alt="image" class="object-cover w-full h-full" decoding="async" height="140" loading="lazy" src="/s/files/1/0677/9650/0800/products/d19-03.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-03.jpg?v=1673482451&amp;width=140&amp;height=140&amp;crop=center 1x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-03.jpg?v=1673482451&amp;width=280&amp;height=280&amp;crop=center 2x, https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-03.jpg?v=1673482451&amp;width=420&amp;height=420&amp;crop=center 3x" style="aspect-ratio:140/140" width="140"/>
+             </li>
+            </ul>
+           </div>
+           <button class="bg-[#FFF3DF] rounded-md h-full flex items-center justify-center" title="Next Slide" type="button">
+            <svg aria-hidden="true" class="w-5 h-5" data-slot="icon" fill="currentColor" stroke-width="2" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+             <path clip-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" fill-rule="evenodd">
+             </path>
+            </svg>
+           </button>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="hidden md:block sticky top-0 z-10 transition-[padding-top,margin-top] duration-300 pointer-events-none pt-20 -mt-20 md:pt-32 md:-mt-32 lg:pt-48 lg:-mt-48 xl:pt-48 xl:-mt-48">
+        <div class="pointer-events-auto">
+         <div class="mb-6">
+          <p class="text-2xl font-semibold">
+          </p>
+         </div>
+         <div class="mb-6">
+          <div class="flex items-end gap-2">
+           <div class="text-xl font-semibold leading-none">
+            From
+            <!-- -->
+            $70 +GST / M2
+           </div>
+          </div>
+         </div>
+         <div>
+          <h2 class="mb-3 font-semibold">
+           Configuration Details
+          </h2>
+          <table class="text-sm text-left min-w-[250px] table-auto md:w-auto w-full">
+           <tbody>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="flex-1">
+       <div class="max-w-[800px] mx-auto">
+        <div class="mb-6">
+         <div class="p-4 rounded-md bg-yellow-50">
+          <div class="flex items-center">
+           <div class="flex-shrink-0">
+            <svg aria-hidden="true" class="w-6 h-6 text-yellow-400" data-slot="icon" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+             <path clip-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" fill-rule="evenodd">
+             </path>
+            </svg>
+           </div>
+           <div class="flex-1 ml-3 md:flex md:justify-between">
+            <p class="text-base font-bold text-yellow-700">
+             This product is only available for pickup!
+            </p>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="px-4 md:px-0">
+         <h1 class="mb-6 text-3xl font-semibold">
+          50% Jute 50% Bamboo Blinds
+         </h1>
+         <div class="items-end hidden gap-2 md:flex">
+          <div class="text-xl font-semibold leading-none">
+           From
+           <!-- -->
+           $70 +GST / M2
+          </div>
+         </div>
+        </div>
+        <form class="relative">
+         <div>
+          <div class="relative px-4 my-12 pointer-events-none md:px-0" id="Room label-wrapper">
+           <div class="sticky top-0 z-30 transition-[padding-top,margin-top] duration-300 pointer-events-none pt-20 -mt-20 md:pt-24 md:-mt-24 lg:pt-48 lg:-mt-48 xl:pt-48 xl:-mt-48">
+            <div class="flex items-center justify-between px-3.5 sm:px-4 py-3.5 rounded bg-light-cyan mb-4">
+             <div class="flex flex-wrap items-center w-full gap-2 font-semibold">
+              <legend class="inline-block leading-none rounded whitespace-nowrap md:text-lg">
+               Room label
+              </legend>
+              <p class="text-sm leading-none text-red-600">
+               -
+               <!-- -->
+               Please enter text field
+              </p>
+             </div>
+            </div>
+           </div>
+           <div class="pointer-events-auto">
+            <div class="w-full max-w-[500px] sm:max-w-[450px]">
+             <div class="w-full">
+              <label class="block pb-1 text-sm font-semibold" for="Room label">
+               Room label
+              </label>
+              <input class="peer border-black py-1.5 px-3 border border-solid invalid:border-red-600 w-full" id="Room label" placeholder="e.g. Living Room" required="" type="text" value=""/>
+             </div>
+            </div>
+           </div>
+          </div>
+          <div class="relative px-4 my-12 pointer-events-none md:px-0" id="Measurements-wrapper">
+           <div class="sticky top-0 z-30 transition-[padding-top,margin-top] duration-300 pointer-events-none pt-20 -mt-20 md:pt-24 md:-mt-24 lg:pt-48 lg:-mt-48 xl:pt-48 xl:-mt-48">
+            <div class="flex items-center justify-between px-3.5 sm:px-4 py-3.5 rounded bg-light-cyan mb-4">
+             <div class="flex flex-wrap items-center w-full gap-2 font-semibold">
+              <legend class="inline-block leading-none rounded whitespace-nowrap md:text-lg">
+               Measurements
+              </legend>
+             </div>
+             <button class="pointer-events-auto" title="Show help" type="button">
+              <svg aria-hidden="true" class="w-6 h-6 transition-colors hover:fill-rose" data-slot="icon" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+               <path clip-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm11.378-3.917c-.89-.777-2.366-.777-3.255 0a.75.75 0 0 1-.988-1.129c1.454-1.272 3.776-1.272 5.23 0 1.513 1.324 1.513 3.518 0 4.842a3.75 3.75 0 0 1-.837.552c-.676.328-1.028.774-1.028 1.152v.75a.75.75 0 0 1-1.5 0v-.75c0-1.279 1.06-2.107 1.875-2.502.182-.088.351-.199.503-.331.83-.727.83-1.857 0-2.584ZM12 18a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" fill-rule="evenodd">
+               </path>
+              </svg>
+             </button>
+             <div hidden="" style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none">
+             </div>
+            </div>
+           </div>
+           <div class="pointer-events-auto">
+            <div class="p-4 border border-black border-solid rounded">
+             <div class="mb-3 -mt-1 rte">
+              <p class="">
+               The natural elasticity of yarns combined with the weight of the natural woven material may cause shades to stretch upwards to 20-40cm after installation. This is particularly noticeable on inside mount shades or shades that extend from ceiling to floor. This is considered a natural characteristic of the product and is not covered under warranty.)
+              </p>
+              <div>
+               <p>
+                Please download our
+                <a class="font-bold text-red-500 underline" href="https://cdn.shopify.com/s/files/1/0677/9650/0800/files/Measuring_Guide_Bamboo_Jute_Roman_Blinds.pdf" target="_blank">
+                 measuring guide
+                </a>
+                for help
+               </p>
+              </div>
+              <div>
+               <p>
+                If you have any questions please email to
+                <a class="font-bold underline" href="mailto:info@homecreator.com.au">
+                 info@homecreator.com.au
+                </a>
+               </p>
+              </div>
+             </div>
+             <div class="grid w-full gap-12 md:grid-cols-2 lg:grid-cols-3">
+              <div class="w-full">
+               <label class="block pb-1 text-sm font-semibold" for="width">
+                Finished Width (mm)
+               </label>
+               <input class="peer border-black py-1.5 px-3 border border-solid invalid:border-red-600 invalid:placeholder:text-red-600 w-full" id="width" max="2400" min="600" placeholder="mm" required="" type="number" value=""/>
+              </div>
+              <div class="w-full">
+               <label class="block pb-1 text-sm font-semibold" for="drop">
+                Finished Drop (mm)
+               </label>
+               <input class="peer border-black py-1.5 px-3 border border-solid invalid:border-red-600 invalid:placeholder:text-red-600 w-full" id="drop" max="2800" min="300" placeholder="mm" required="" type="number" value=""/>
+              </div>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="block px-4 mb-6 md:hidden md:px-0">
+          <div class="">
+           <div class="pointer-events-auto">
+            <div class="mb-6">
+             <p class="text-2xl font-semibold">
+             </p>
+            </div>
+            <div>
+             <h2 class="mb-3 font-semibold">
+              Configuration Details
+             </h2>
+             <table class="text-sm text-left min-w-[250px] table-auto md:w-auto w-full">
+              <tbody>
+              </tbody>
+             </table>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="mb-4">
+          <div class="p-4 rounded-md bg-yellow-50">
+           <div class="flex items-center">
+            <div class="flex-shrink-0">
+             <svg aria-hidden="true" class="w-6 h-6 text-yellow-400" data-slot="icon" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path clip-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" fill-rule="evenodd">
+              </path>
+             </svg>
+            </div>
+            <div class="flex-1 ml-3 md:flex md:justify-between">
+             <p class="text-base font-bold text-yellow-700">
+              This product is only available for pickup!
+             </p>
+            </div>
+           </div>
+          </div>
+         </div>
+         <div class="sticky bottom-0 z-40 px-4 py-5 bg-white md:px-0 md:py-3">
+          <div class="flex items-end gap-2 mb-4 md:mb-3">
+           <div class="text-xl font-semibold leading-none">
+            From
+            <!-- -->
+            $70 +GST / M2
+           </div>
+          </div>
+          <button class="w-full py-2 text-lg font-bold text-white transition-colors bg-black border border-black focus:bg-white focus:text-black focus:ring-rose focus:ring-2 ring-offset-2 hover:bg-white hover:text-black disabled:cursor-not-allowed disabled:bg-white disabled:text-black disabled:border-black" disabled="" type="submit">
+           <span>
+            Please select all options
+           </span>
+          </button>
+         </div>
+        </form>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="container px-0 my-12">
+    <div class="w-full mt-8">
+     <button aria-hidden="true" style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0" type="button">
+     </button>
+     <div aria-orientation="horizontal" class="sticky top-0 px-0 mb-6 md:px-4 md:pt-4" role="tablist">
+      <div class="flex flex-wrap gap-x-1 lg:gap-x-2 gap-y-1 p-1.5 bg-light-cyan rounded-xl">
+       <button aria-selected="true" class="py-2 lg:py-2.5 px-3 lg:px-4 rounded-xl hover:bg-white transition-colors font-semibold bg-white border border-solid border-gray-400" data-headlessui-state="selected" id="headlessui-tabs-tab-:R5l35:" role="tab" tabindex="0">
+        Product Description
+       </button>
+       <button aria-selected="false" class="py-2 lg:py-2.5 px-3 lg:px-4 rounded-xl hover:bg-white transition-colors font-semibold m-px" data-headlessui-state="" id="headlessui-tabs-tab-:R9l35:" role="tab" tabindex="-1">
+        Measuring Guide
+       </button>
+       <button aria-selected="false" class="py-2 lg:py-2.5 px-3 lg:px-4 rounded-xl hover:bg-white transition-colors font-semibold m-px" data-headlessui-state="" id="headlessui-tabs-tab-:Rdl35:" role="tab" tabindex="-1">
+        Installation Guide
+       </button>
+       <button aria-selected="false" class="py-2 lg:py-2.5 px-3 lg:px-4 rounded-xl hover:bg-white transition-colors font-semibold m-px" data-headlessui-state="" id="headlessui-tabs-tab-:Rhl35:" role="tab" tabindex="-1">
+        Important Note
+       </button>
+       <button aria-selected="false" class="py-2 lg:py-2.5 px-3 lg:px-4 rounded-xl hover:bg-white transition-colors font-semibold m-px" data-headlessui-state="" id="headlessui-tabs-tab-:Rll35:" role="tab" tabindex="-1">
+        Delivery Information
+       </button>
+      </div>
+     </div>
+     <div class="px-4">
+      <div class="rte sm:px-6" data-headlessui-state="selected" id="headlessui-tabs-panel-:R6l35:" role="tabpanel" tabindex="0">
+       <div>
+        <p>
+         Woven Bamboo and Jute Shade is a window treatment shade woven with combination natural materials.
+        </p>
+        <p>
+         The woven materials are blended with natural fibres such as Bamboo, Jute, Flax, Kenaf, Ramie and or other natural fibres.
+        </p>
+        <p>
+         They are made of natural fibres so the woven blinds are organic blinds, 100% biodegradable with environmentally friendly.
+        </p>
+        <p>
+         Each patten are unique, the natural materials help filter light and create a relaxing element at your home.
+        </p>
+        <p>
+         Â
+        </p>
+        <h2>
+         Specification
+        </h2>
+        <table width="100%">
+         <tbody>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span data-mce-fragment="1">
+             Minimum window depth required
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            40mm
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            Width
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            600-2400mm
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            Drop
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            500- 2800mm
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            Front Valance Height
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            <p>
+             around 150mm
+            </p>
+            <div style="text-align: start;">
+             <img alt="Front Valance Height" height="177" src="/s/files/1/0677/9650/0800/files/valance_480x480.jpg" style="float: none;" width="160"/>
+            </div>
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             Cord with Cord Lock, timber tassel to control blinds lift and lower
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            <img alt="Cord with Cord Lock, timber tassel to control blinds lift and lower." height="214" src="/s/files/1/0677/9650/0800/files/cordlocktimber_480x480.jpg" width="160"/>
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             Standard Timber Headrail
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            <p>
+             15mm thickness, 40mm depth
+            </p>
+            <p>
+             <img alt="Standard Timber Headrail" height="237" src="/s/files/1/0677/9650/0800/files/standardtimberheadrail_480x480.jpg" width="160"/>
+            </p>
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             Side Cover
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            <p>
+             Suggested to use side cover to cover side headrail while blinds fitted on window architraves.
+            </p>
+            <p>
+             <img alt="Side cover" height="304" src="/s/files/1/0677/9650/0800/files/sidecover_480x480.jpg" width="160"/>
+            </p>
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             With Liner
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            <p>
+             Attached blockout liner or semi-blockout liner to the blinds to block light or semi block light.
+            </p>
+            <p>
+             <img alt="" height="283" src="/s/files/1/0677/9650/0800/files/withliner_480x480.jpg" width="160"/>
+            </p>
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             Without Liner
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            Day time see through and privacy
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             Edged Binding
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            <p>
+             The additional of edge binding to help control the possible stretching of natural materials over time.
+            </p>
+            <p>
+             <img alt="" height="212" src="/s/files/1/0677/9650/0800/files/edgedbinding_480x480.jpg" width="160"/>
+            </p>
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             No Edged Binding
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            <p>
+             Keep natural style
+            </p>
+            <p>
+             <img alt="" height="194" src="/s/files/1/0677/9650/0800/files/noedgedbinding_480x480.jpg" width="160"/>
+            </p>
+           </td>
+          </tr>
+          <tr>
+           <td data-mce-style="width: 181.913px;" style="width: 181.913px;">
+            <span>
+             Bottom Rail
+            </span>
+           </td>
+           <td data-mce-style="width: 342.087px;" style="width: 342.087px;">
+            Timber bottom rail wrapped with bamboo.
+           </td>
+          </tr>
+         </tbody>
+        </table>
+        <p>
+         Â
+        </p>
+        <h2>
+         Maintenance
+        </h2>
+        <ul>
+         <li>
+          Vacuum cleaner
+         </li>
+         <li>
+          Duster
+         </li>
+        </ul>
+       </div>
+      </div>
+      <span aria-hidden="true" id="headlessui-tabs-panel-:Ral35:" role="tabpanel" style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0" tabindex="-1">
+      </span>
+      <span aria-hidden="true" id="headlessui-tabs-panel-:Rel35:" role="tabpanel" style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0" tabindex="-1">
+      </span>
+      <span aria-hidden="true" id="headlessui-tabs-panel-:Ril35:" role="tabpanel" style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0" tabindex="-1">
+      </span>
+      <span aria-hidden="true" id="headlessui-tabs-panel-:Rml35:" role="tabpanel" style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0" tabindex="-1">
+      </span>
+     </div>
+    </div>
+   </div>
+  </main>
+  <footer class="footer">
+   <footer class="bg-light-cyan">
+    <div class="container py-10">
+     <div class="mb-10">
+      <nav class="grid grid-cols-2 gap-10 md:gap-20 md:flex footer-menu">
+       <div class="space-y-3">
+        <legend class="font-semibold">
+         Shop
+        </legend>
+        <ul class="group">
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../">
+           Custom made-to-order
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../pages/gallery/">
+           Gallery
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../pages/quote-and-order/">
+           Quote and Order
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../pages/guides/">
+           Installation/Measuring Guides
+          </a>
+         </li>
+        </ul>
+       </div>
+       <div class="space-y-3">
+        <legend class="font-semibold">
+         Home Creator
+        </legend>
+        <ul class="group">
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/shipping-policy/">
+           Shipping
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../pages/contact/">
+           Contact
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/terms-of-service/">
+           Terms and Conditions
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/privacy-policy/">
+           Privacy Policy
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../pages/warranty/">
+           Warranty
+          </a>
+         </li>
+        </ul>
+       </div>
+       <div class="space-y-3">
+        <legend class="font-semibold">
+         Help
+        </legend>
+        <ul class="group">
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../pages/trade-program/">
+           Trade Program
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../pages/contact/">
+           Store Pickup
+          </a>
+         </li>
+        </ul>
+       </div>
+      </nav>
+     </div>
+     <div class="flex flex-col justify-between mb-8 md:items-center gap-y-6 md:flex-row md:mb-6">
+      <div>
+       <div class="flex items-center gap-2">
+        <a class="flex items-center gap-2" href="https://www.facebook.com/HomeCreatorAU" rel="noreferrer" target="_blank" title="Facebook">
+         <svg class="w-5 h-5" viewbox="0 0 12.498 26.773" xmlns="http://www.w3.org/2000/svg">
+          <path d="M230.953,156.629v-13.4h4.423l.7-4.442h-5.122v-2.227c0-1.159.38-2.265,2.044-2.265h3.325v-4.434H231.6c-3.969,0-5.052,2.614-5.052,6.237v2.688h-2.723v4.444h2.723v13.4Z" transform="translate(-223.825 -129.856)">
+          </path>
+         </svg>
+        </a>
+       </div>
+      </div>
+      <a class="inline-block" data-discover="true" href="../../">
+       <img alt="Homecreator Logo" class="w-[170px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+      </a>
+     </div>
+     <div class="flex flex-col justify-between gap-5 md:gap-0 md:flex-row">
+      <p class="order-2 text-center md:order-1 md:text-left">
+       Â©
+       <!-- -->
+       2025
+       <!-- -->
+       Home Creator. All Rights Reserved. Home Creator is proudly founded and based in Australia.
+      </p>
+      <div class="order-1 mx-auto md:order-2 md:mr-0">
+       <img alt="Mastercard, Paypal, Visa, Afterpay" class="w-[140px] h-auto" height="21.5" src="/s/files/1/0677/9650/0800/files/payment-options-hc.png" width="140"/>
+      </div>
+     </div>
+    </div>
+   </footer>
+  </footer>
+  <script nonce="95ac1821e87a0850b9f31a2f9393e860">
+   ((c,f)=>{if(!window.history.state||!window.history.state.key){let p=Math.random().toString(32).slice(2);window.history.replaceState({key:p},"")}try{let g=JSON.parse(sessionStorage.getItem(c)||"{}")[f||window.history.state.key];typeof g=="number"&&window.scrollTo(0,g)}catch(p){console.error(p),sessionStorage.removeItem(c)}})("positions", null)
+  </script>
+  <script nonce="95ac1821e87a0850b9f31a2f9393e860">
+   window.__remixContext = {"basename":"/","future":{"v3_fetcherPersist":true,"v3_relativeSplatPath":true,"v3_throwAbortReason":true,"v3_routeConfig":false,"v3_singleFetch":false,"v3_lazyRouteDiscovery":false,"unstable_optimizeDeps":false},"isSpaMode":false,"state":{"loaderData":{"root":{"cart":{},"footer":{"menu":{"id":"gid:/shopify/Menu/210069029184","items":[{"id":"gid:/shopify/MenuItem/489181577536","resourceId":null,"tags":[],"title":"HEADING_Shop","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489181643072","resourceId":null,"tags":[],"title":"Custom made-to-order","type":"HTTP","url":"/collections/"},{"id":"gid:/shopify/MenuItem/598861185344","resourceId":"gid:/shopify/Page/104996929856","tags":[],"title":"Gallery","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/gallery"},{"id":"gid:/shopify/MenuItem/489181675840","resourceId":"gid:/shopify/Page/104996438336","tags":[],"title":"Quote and Order","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/quote-and-order"},{"id":"gid:/shopify/MenuItem/498867896640","resourceId":"gid:/shopify/Page/106613670208","tags":[],"title":"Installation/Measuring Guides","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/guides"}]},{"id":"gid:/shopify/MenuItem/489181872448","resourceId":null,"tags":[],"title":"HEADING_Home Creator","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489182036288","resourceId":"gid:/shopify/ShopPolicy/28075098432","tags":[],"title":"Shipping","type":"SHOP_POLICY","url":"https://checkout.homecreator.com.au/policies/shipping-policy"},{"id":"gid:/shopify/MenuItem/492313772352","resourceId":"gid:/shopify/Page/104774795584","tags":[],"title":"Contact","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/contact"},{"id":"gid:/shopify/MenuItem/489181937984","resourceId":"gid:/shopify/ShopPolicy/28075065664","tags":[],"title":"Terms and Conditions","type":"SHOP_POLICY","url":"https://checkout.homecreator.com.au/policies/terms-of-service"},{"id":"gid:/shopify/MenuItem/489181970752","resourceId":"gid:/shopify/ShopPolicy/28075032896","tags":[],"title":"Privacy Policy","type":"SHOP_POLICY","url":"https://checkout.homecreator.com.au/policies/privacy-policy"},{"id":"gid:/shopify/MenuItem/489182003520","resourceId":"gid:/shopify/Page/114697666880","tags":[],"title":"Warranty","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/warranty"}]},{"id":"gid:/shopify/MenuItem/489182069056","resourceId":null,"tags":[],"title":"HEADING_Help","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489182232896","resourceId":"gid:/shopify/Page/104865988928","tags":[],"title":"Trade Program","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/trade-program"},{"id":"gid:/shopify/MenuItem/489182265664","resourceId":"gid:/shopify/Page/104774795584","tags":[],"title":"Store Pickup","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/contact"}]}]}},"header":{"shop":{"id":"gid:/shopify/Shop/67796500800","name":"Home Creator","description":"","primaryDomain":{"url":"/collections/"},"brand":{"logo":{"image":{"url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/hc_logo.f94ed4a3.png?v=1686184300"}}}},"menu":{"id":"gid:/shopify/Menu/210068996416","items":[{"id":"gid:/shopify/MenuItem/488880832832","resourceId":null,"tags":[],"title":"Home","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[]},{"id":"gid:/shopify/MenuItem/489644458304","resourceId":null,"tags":[],"title":"HEADING_Custom made-to-order","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489646260544","resourceId":"gid:/shopify/Collection/429956006208","tags":[],"title":"Plantation Shutters","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/plantation-shutters"},{"id":"gid:/shopify/MenuItem/491182915904","resourceId":"gid:/shopify/Collection/429956137280","tags":[],"title":"S Fold Curtains","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/sheer-curtains"},{"id":"gid:/shopify/MenuItem/491182948672","resourceId":"gid:/shopify/Collection/429955907904","tags":[],"title":"Bamboo \u0026 Jude Woven Roman Blinds","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/bamboo-jute-woven-roman-blinds"},{"id":"gid:/shopify/MenuItem/731582136640","resourceId":"gid:/shopify/Collection/427370676544","tags":[],"title":"Roller Blinds","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/roller-blinds"}]},{"id":"gid:/shopify/MenuItem/495409201472","resourceId":"gid:/shopify/Page/106613670208","tags":[],"title":"Guides","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/guides","items":[]},{"id":"gid:/shopify/MenuItem/489646096704","resourceId":"gid:/shopify/Page/104996929856","tags":[],"title":"Gallery","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/gallery","items":[]},{"id":"gid:/shopify/MenuItem/489646129472","resourceId":"gid:/shopify/Page/104996438336","tags":[],"title":"Quote and Order","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/quote-and-order","items":[]},{"id":"gid:/shopify/MenuItem/492313805120","resourceId":"gid:/shopify/Page/104774795584","tags":[],"title":"Contact","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/contact","items":[]}]}},"isLoggedIn":false,"publicStoreDomain":"homecreator-au.myshopify.com","ENV":{"LIGHTGALLERY_LICENSE_KEY":"36102212-B91446B2-A80FCCAA-832FCF99"}},"routes/products.$handle":{"product":{"id":"gid:/shopify/Product/8095242486080","title":"50% Jute 50% Bamboo Blinds","vendor":"Home Creator","productType":"Woven Blinds","handle":"50-jute-50-bamboo-blinds","descriptionHtml":"\u003cp\u003eWoven Bamboo and Jute Shade is a window treatment shade woven with combination natural materials.\u003c/p\u003e\n\u003cp\u003eThe woven materials are blended with natural fibres such as Bamboo, Jute, Flax, Kenaf, Ramie and or other natural fibres.\u003c/p\u003e\n\u003cp\u003eThey are made of natural fibres so the woven blinds are organic blinds, 100% biodegradable with environmentally friendly.\u003c/p\u003e\n\u003cp\u003eEach patten are unique, the natural materials help filter light and create a relaxing element at your home.\u003c/p\u003e\n\u003cp\u003eÂ \u003c/p\u003e\n\u003ch2\u003eSpecification\u003c/h2\u003e\n\u003ctable width=\"100%\"\u003e\n\u003ctbody\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan data-mce-fragment=\"1\"\u003eMinimum window depth required\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e40mm\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003eWidth\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e600-2400mm\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003eDrop\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e500- 2800mm\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003eFront Valance Height\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e\n\u003cp\u003earound 150mm\u003c/p\u003e\n\u003cdiv style=\"text-align: start;\"\u003e\u003cimg src=\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/valance_480x480.jpg?v=1686188423\" alt=\"Front Valance Height\" style=\"float: none;\" width=\"160\" height=\"177\"\u003e\u003c/div\u003e\n\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eCord with Cord Lock, timber tassel to control blinds lift and lower\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e\u003cimg src=\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/cordlocktimber_480x480.jpg?v=1686188371\" alt=\"Cord with Cord Lock, timber tassel to control blinds lift and lower.\" width=\"160\" height=\"214\"\u003e\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eStandard Timber Headrail\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e\n\u003cp\u003e15mm thickness, 40mm depth\u003c/p\u003e\n\u003cp\u003e\u003cimg alt=\"Standard Timber Headrail\" src=\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/standardtimberheadrail_480x480.jpg?v=1686188423\" width=\"160\" height=\"237\"\u003e\u003c/p\u003e\n\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eSide Cover\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e\n\u003cp\u003eSuggested to use side cover to cover side headrail while blinds fitted on window architraves.\u003c/p\u003e\n\u003cp\u003e\u003cimg alt=\"Side cover\" src=\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/sidecover_480x480.jpg?v=1686188423\" width=\"160\" height=\"304\"\u003e\u003c/p\u003e\n\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eWith Liner\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e\n\u003cp\u003eAttached blockout liner or semi-blockout liner to the blinds to block light or semi block light.\u003c/p\u003e\n\u003cp\u003e\u003cimg alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/withliner_480x480.jpg?v=1686188423\" width=\"160\" height=\"283\"\u003e\u003c/p\u003e\n\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eWithout Liner\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003eDay time see through and privacy\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eEdged Binding\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e\n\u003cp\u003eThe additional of edge binding to help control the possible stretching of natural materials over time.\u003c/p\u003e\n\u003cp\u003e\u003cimg alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/edgedbinding_480x480.jpg?v=1686188423\" width=\"160\" height=\"212\"\u003e\u003c/p\u003e\n\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eNo Edged Binding\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003e\n\u003cp\u003eKeep natural style\u003c/p\u003e\n\u003cp\u003e\u003cimg alt=\"\" src=\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/noedgedbinding_480x480.jpg?v=1686188423\" width=\"160\" height=\"194\"\u003e\u003c/p\u003e\n\u003c/td\u003e\n\u003c/tr\u003e\n\u003ctr\u003e\n\u003ctd style=\"width: 181.913px;\" data-mce-style=\"width: 181.913px;\"\u003e\u003cspan\u003eBottom Rail\u003c/span\u003e\u003c/td\u003e\n\u003ctd style=\"width: 342.087px;\" data-mce-style=\"width: 342.087px;\"\u003eTimber bottom rail wrapped with bamboo.\u003c/td\u003e\n\u003c/tr\u003e\n\u003c/tbody\u003e\n\u003c/table\u003e\n\u003cp\u003eÂ \u003c/p\u003e\n\u003ch2\u003eMaintenance\u003c/h2\u003e\n\u003cul\u003e\n\u003cli\u003eVacuum cleaner\u003c/li\u003e\n\u003cli\u003eDuster\u003c/li\u003e\n\u003c/ul\u003e","description":"Woven Bamboo and Jute Shade is a window treatment shade woven with combination natural materials. The woven materials are blended with natural fibres such as Bamboo, Jute, Flax, Kenaf, Ramie and or other natural fibres. They are made of natural fibres so the woven blinds are organic blinds, 100% biodegradable with environmentally friendly. Each patten are unique, the natural materials help filter light and create a relaxing element at your home. Specification Minimum window depth required 40mm Width 600-2400mm Drop 500- 2800mm Front Valance Height around 150mm Cord with Cord Lock, timber tassel to control blinds lift and lower Standard Timber Headrail 15mm thickness, 40mm depth Side Cover Suggested to use side cover to cover side headrail while blinds fitted on window architraves. With Liner Attached blockout liner or semi-blockout liner to the blinds to block light or semi block light. Without Liner Day time see through and privacy Edged Binding The additional of edge binding to help control the possible stretching of natural materials over time. No Edged Binding Keep natural style Bottom Rail Timber bottom rail wrapped with bamboo. Maintenance Vacuum cleaner Duster","options":[{"name":"Title","values":["Default Title"]}],"images":{"nodes":[{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187340608","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06_200x200_crop_center.jpg?v=1673482452"},{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187144000","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-026.jpg?v=1673482451","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-026_200x200_crop_center.jpg?v=1673482451"},{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187373376","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-025.jpg?v=1673482453","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-025_200x200_crop_center.jpg?v=1673482453"},{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187307840","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-006.jpg?v=1673482452","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-006_200x200_crop_center.jpg?v=1673482452"},{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187209536","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-004.jpg?v=1673482451","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/ju-b-004_200x200_crop_center.jpg?v=1673482451"},{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187176768","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-22.jpg?v=1673482451","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-22_200x200_crop_center.jpg?v=1673482451"},{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187242304","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-05.jpg?v=1673482452","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-05_200x200_crop_center.jpg?v=1673482452"},{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187045696","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-03.jpg?v=1673482451","altText":null,"width":500,"height":500,"thumbs":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d19-03_200x200_crop_center.jpg?v=1673482451"}]},"selectedVariant":{"availableForSale":true,"compareAtPrice":null,"id":"gid:/shopify/ProductVariant/44253430153536","image":{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187340608","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452","altText":null,"width":500,"height":500},"price":{"amount":"0.0","currencyCode":"AUD"},"product":{"title":"50% Jute 50% Bamboo Blinds","handle":"50-jute-50-bamboo-blinds"},"selectedOptions":[{"name":"Title","value":"Default Title"}],"sku":"","title":"Default Title","unitPrice":null},"variants":{"nodes":[{"availableForSale":true,"compareAtPrice":null,"id":"gid:/shopify/ProductVariant/44253430153536","image":{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187340608","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452","altText":null,"width":500,"height":500},"price":{"amount":"0.0","currencyCode":"AUD"},"product":{"title":"50% Jute 50% Bamboo Blinds","handle":"50-jute-50-bamboo-blinds"},"selectedOptions":[{"name":"Title","value":"Default Title"}],"sku":"","title":"Default Title","unitPrice":null}]},"configJson":{"value":"{\"title\":\"50% Jute 50% Bamboo\",\"description\":\"50% Jute 50% Bamboo\",\"from\":\"$70 +GST / M2\",\"fields\":[{\"type\":\"text\",\"label\":\"Room label\",\"name\":\"Room label\",\"placeholder\":\"e.g. Living Room\"},{\"type\":\"select\",\"label\":\"Fitting Position\",\"name\":\"Fitting Position\",\"description\":[{\"type\":\"p\",\"value\":\"Please check the window depth before selection.\"},{\"type\":\"ol\",\"values\":[{\"type\":\"li\",\"value\":\"Recess Fitting Blinds fitted at window reveal\"},{\"type\":\"li\",\"value\":\"Face Fitting  Blinds Fitted on Window Architrave\"}]}],\"helpDetails\":[{\"type\":\"p\",\"value\":\"Please check the window depth before selection.\",\"className\":\"font-bold\"},{\"type\":\"ol\",\"values\":[{\"type\":\"li\",\"value\":\"Recess Fitting (Basswood Plantation shutters fitted at window reveal)\"},{\"type\":\"li\",\"value\":\"Face Fitting (Basswood Plantation shutters fitted on window architrave or wall):\"}]},{\"type\":\"br\"},{\"type\":\"p\",\"value\":\"Recess Fitting - Blinds fitted at window reveal\",\"className\":\"font-bold\"},{\"type\":\"ul\",\"values\":[{\"type\":\"li\",\"value\":\"Minimum depth required 40mm\",\"className\":\"text-red-500\"},{\"type\":\"li\",\"value\":\"Space saving\"},{\"type\":\"li\",\"value\":\"Suitable for outward opening window\"},{\"type\":\"li\",\"value\":\"Suitable foe window depth over 40mm\"}]},{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/recess_woven.jpg\",\"alt\":\"Recess Fitting\",\"caption\":\"Recess Fitting\",\"className\":\"!max-w-[450px] !max-h-fit w-full h-auto mx-auto\"},{\"type\":\"br\"},{\"type\":\"p\",\"value\":\"Face Fitting - Blinds Fitted on Window Architrave\",\"className\":\"font-bold\"},{\"type\":\"ul\",\"values\":[{\"type\":\"li\",\"value\":\"Suitable for inward opening windows\"},{\"type\":\"li\",\"value\":\"Suitable for window depth less than 40mm\"}]},{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/face_woven.jpg\",\"alt\":\"Face Fitting\",\"caption\":\"Face Fitting\",\"className\":\"!max-w-[450px] !max-h-fit w-full h-auto mx-auto\"}],\"swatch\":true,\"options\":[{\"label\":\"Recess Fitting\",\"value\":\"Recess Fitting\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/recess_woven.jpg\",\"altText\":\"Recess Fitting\",\"width\":200,\"height\":200}},{\"label\":\"Face Fitting\",\"value\":\"Face Fitting\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/face_woven.jpg\",\"altText\":\"Face Fitting\",\"width\":200,\"height\":200}}]},{\"type\":\"measurement\",\"name\":\"measurements\",\"label\":\"Measurements\",\"helpDetails\":[{\"type\":\"p\",\"value\":\"The natural elasticity of yarns combined with the weight of the natural woven material may cause shades to stretch upwards to 20-40cm after installation. This is particularly noticeable on inside mount shades or shades that extend from ceiling to floor. This is considered a natural characteristic of the product and is not covered under warranty.)\"},{\"type\":\"raw\",\"value\":\"\u003cp\u003ePlease download our \u003ca href='https://cdn.shopify.com/s/files/1/0677/9650/0800/files/Measuring_Guide_Bamboo_Jute_Roman_Blinds.pdf' target='_blank' class='font-bold text-red-500 underline'\u003emeasuring guide\u003c/a\u003e for help\u003c/p\u003e\"},{\"type\":\"raw\",\"value\":\"\u003cp\u003eIf you have any questions please email to \u003ca href='mailto:info@homecreator.com.au' class='font-bold underline'\u003einfo@homecreator.com.au\u003c/a\u003e\u003c/p\u003e\"},{\"type\":\"p\",\"value\":\"Please note that the measurements are in millimeters (mm).\"},{\"type\":\"p\",\"value\":\"Max width and drop:\",\"className\":\"font-bold\"},{\"type\":\"ul\",\"values\":[{\"type\":\"li\",\"value\":\"Minimum width 600mm, Maximum width 2400mm\"},{\"type\":\"li\",\"value\":\"Minimum drop 300mm, Maximum drop 2800mm\"}]}],\"description\":[{\"type\":\"p\",\"value\":\"The natural elasticity of yarns combined with the weight of the natural woven material may cause shades to stretch upwards to 20-40cm after installation. This is particularly noticeable on inside mount shades or shades that extend from ceiling to floor. This is considered a natural characteristic of the product and is not covered under warranty.)\"},{\"type\":\"raw\",\"value\":\"\u003cp\u003ePlease download our \u003ca href='https://cdn.shopify.com/s/files/1/0677/9650/0800/files/Measuring_Guide_Bamboo_Jute_Roman_Blinds.pdf' target='_blank' class='font-bold text-red-500 underline'\u003emeasuring guide\u003c/a\u003e for help\u003c/p\u003e\"},{\"type\":\"raw\",\"value\":\"\u003cp\u003eIf you have any questions please email to \u003ca href='mailto:info@homecreator.com.au' class='font-bold underline'\u003einfo@homecreator.com.au\u003c/a\u003e\u003c/p\u003e\"}],\"unitPrice\":7.7e-05,\"fields\":[{\"type\":\"number\",\"label\":\"Finished Width (mm)\",\"name\":\"width\",\"unit\":\"mm\",\"validation\":{\"min\":600,\"max\":2400}},{\"type\":\"number\",\"label\":\"Finished Drop (mm)\",\"name\":\"drop\",\"unit\":\"mm\",\"validation\":{\"min\":300,\"max\":2800}}]},{\"type\":\"select\",\"label\":\"Lining at back\",\"name\":\"Lining at back\",\"description\":[{\"type\":\"p\",\"value\":\"Blackout lining offer total light obstruction and are ideal for bedrooms and bathrooms.\"}],\"helpDetails\":[{\"type\":\"p\",\"value\":\"Blackout lining offer total light obstruction and are ideal for bedrooms and bathrooms.\"},{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/liningatback-v1.jpg\",\"alt\":\"Lining at Back\",\"caption\":\"Lining at Back\",\"className\":\"!max-w-[450px] !max-h-fit w-full h-auto mx-auto\"}],\"options\":[{\"label\":\"No Lining\",\"value\":\"No Lining\"},{\"label\":\"Add Lining\",\"value\":\"Add Lining\",\"priceRule\":{\"type\":\"dynamic\",\"unitPrice\":1.65e-05,\"includes\":[\"width\",\"drop\"]}}]},{\"type\":\"select\",\"label\":\"Side Binding\",\"name\":\"Side Binding\",\"description\":[{\"type\":\"p\",\"value\":\"The additional of edged binding will not only add a truly personal decorative touch, but will also help control the possible stretching of natural materials over time.\"}],\"helpDetails\":[{\"type\":\"p\",\"value\":\"The additional of edged binding will not only add a truly personal decorative touch, but will also help control the possible stretching of natural materials over time.\"},{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/has-side-binding-v1.jpg\",\"alt\":\"Side Binding\",\"caption\":\"Side Binding\",\"className\":\"!max-w-[450px] !max-h-fit w-full h-auto mx-auto\"},{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/sidebinding-v1.jpg\",\"alt\":\"No Side Binding\",\"caption\":\"No Side Binding\",\"className\":\"!max-w-[450px] !max-h-fit w-full h-auto mx-auto\"}],\"options\":[{\"label\":\"No Side Binding\",\"value\":\"No Side Binding\"},{\"label\":\"Add Side Binding\",\"value\":\"Add Side Binding\",\"priceRule\":{\"type\":\"dynamic\",\"unitPrice\":0.011,\"includes\":[\"drop\"]}}]},{\"type\":\"select\",\"label\":\"Side Cover\",\"name\":\"Side Cover\",\"description\":[{\"type\":\"p\",\"value\":\"Side cover with 65mm height will cover head rail on both side while face fitting.\"}],\"helpDetails\":[{\"type\":\"p\",\"value\":\"Side cover with 65mm height will cover head rail on both side while face fitting.\"},{\"type\":\"col-2\",\"values\":[{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/sidecover-1-v1.jpg\",\"alt\":\"Side Cover 1\",\"caption\":\"Side Cover 1\"},{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/side-cover-2-v1.jpg\",\"alt\":\"Side Cover 2\",\"caption\":\"Side Cover 2\"}]}],\"options\":[{\"label\":\"No Side Cover\",\"value\":\"No Side Cover\",\"conditions\":[{\"name\":\"Fitting Position\",\"values\":[\"Face Fitting\"]}]},{\"label\":\"Add Side Cover\",\"value\":\"Add Side Cover\",\"priceRule\":{\"type\":\"fixed\",\"value\":6.6},\"conditions\":[{\"name\":\"Fitting Position\",\"values\":[\"Face Fitting\"]}]}]},{\"type\":\"select\",\"label\":\"Cord with cord lock and timber tassel\",\"name\":\"Cord with cord lock and timber tassel\",\"helpDetails\":[{\"type\":\"img\",\"value\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/cordtimbertassel-v1.jpg\",\"alt\":\"Cord with cord lock and timber tassel\",\"caption\":\"Cord with cord lock and timber tassel\",\"className\":\"!max-w-[450px] !max-h-fit w-full h-auto mx-auto\"}],\"options\":[{\"label\":\"Left Side\",\"value\":\"Left Side\"},{\"label\":\"Right Side\",\"value\":\"Right Side\"}]},{\"type\":\"select\",\"label\":\"Material\",\"name\":\"Material\",\"swatch\":true,\"options\":[{\"label\":\"D19-03\",\"value\":\"D19-03\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/d19-03.jpg\",\"altText\":\"D19-03\",\"width\":200,\"height\":200}},{\"label\":\"D19-05\",\"value\":\"D19-05\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/d19-05.jpg\",\"altText\":\"D19-05\",\"width\":200,\"height\":200}},{\"label\":\"D18-06\",\"value\":\"D18-06\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/d18-06.jpg\",\"altText\":\"D18-06\",\"width\":200,\"height\":200}},{\"label\":\"D19-22\",\"value\":\"D19-22\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/d19-22.jpg\",\"altText\":\"D19-22\",\"width\":200,\"height\":200}},{\"label\":\"JU-B-004\",\"value\":\"JU-B-004\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/ju-b-004.jpg\",\"altText\":\"JU-B-004\",\"width\":200,\"height\":200}},{\"label\":\"JU-B-006\",\"value\":\"JU-B-006\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/ju-b-006.jpg\",\"altText\":\"JU-B-006\",\"width\":200,\"height\":200}},{\"label\":\"JU-B-025\",\"value\":\"JU-B-025\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/ju-b-025.jpg\",\"altText\":\"JU-B-025\",\"width\":200,\"height\":200}},{\"label\":\"JU-B-026\",\"value\":\"JU-B-026\",\"image\":{\"url\":\"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/ju-b-026.jpg\",\"altText\":\"JU-B-026\",\"width\":200,\"height\":200}}]}],\"extraCost\":[{\"label\":\"Valence\",\"name\":\"Valence\",\"priceRule\":{\"type\":\"dynamic\",\"unitPrice\":0.007425,\"includes\":[\"width\"]}}],\"measurementUnitPriceOverride\":[{\"unitPrice\":\"0.000077\",\"conditions\":[{\"name\":\"Material\",\"values\":[\"D18-06\"]}]},{\"unitPrice\":\"0.0000781\",\"conditions\":[{\"name\":\"Material\",\"values\":[\"D19-03\",\"D19-05\",\"D19-22\"]}]},{\"unitPrice\":\"0.000099\",\"conditions\":[{\"name\":\"Material\",\"values\":[\"JU-B-025\",\"JU-B-004\",\"JU-B-006\",\"JU-B-026\"]}]}]}"},"measuringGuide":null,"installationGuide":null,"note":{"value":"Stretching: \n- The natural elasticity of yarns combined with the weight of the natural woven material may cause shades to stretch upwards to 30-40mm after installation.  This is particularly noticeable on inside mount shades or shades fitted from ceiling to floor.  This is considered a natural characteristic of the product and is not covered under warranty. Ordering the shade shorter than needed will help compensate for stretching over time, however the shade will be short when installed.\n\n- The natural materials have unique variations in color, texture and size. Colors may change over time. This adds to the natural beauty of the material and does not represent a defect.\n\nChild Safety Information:\n- This product has accessible cords and is not recommended for windows where children or pets may be present.\n\n\nCare\n- Vacuum Cleaner\n- Duster\n"},"collection":{"reference":{"deliveryInformation":{"value":"[\"Lead time is around 8-10 weeks.\",\"Pick up only.  Or you can contact our office at info@homecreator.com.au for delivery.\"]"},"measuringGuide":{"reference":{"url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/Measuring_Guide_Bamboo_Jute_Roman_Blinds.pdf?v=1679586394"}},"installationGuide":{"reference":{"url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/Bamboo_Blinds_Installation_Guide.pdf?v=1679586394"}},"note":null,"maintenance":null}},"configurable":{"value":"true"},"customCutting":null,"seo":{"description":null,"title":null}},"variants":{"product":{"variants":{"nodes":[{"availableForSale":true,"compareAtPrice":null,"id":"gid:/shopify/ProductVariant/44253430153536","image":{"__typename":"Image","id":"gid:/shopify/ProductImage/40273187340608","url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/products/d18-06.jpg?v=1673482452","altText":null,"width":500,"height":500},"price":{"amount":"0.0","currencyCode":"AUD"},"product":{"title":"50% Jute 50% Bamboo Blinds","handle":"50-jute-50-bamboo-blinds"},"selectedOptions":[{"name":"Title","value":"Default Title"}],"sku":"","title":"Default Title","unitPrice":null}]}}}}},"actionData":null,"errors":null}};__remixContext.p = function(v,e,p,x) {
+  if (typeof e !== 'undefined') {
+    x=new Error("Unexpected Server Error");
+    x.stack=undefined;
+    p=Promise.reject(x);
+  } else {
+    p=Promise.resolve(v);
+  }
+  return p;
+};
+__remixContext.n = function(i,k) {
+  __remixContext.t = __remixContext.t || {};
+  __remixContext.t[i] = __remixContext.t[i] || {};
+  let p = new Promise((r, e) => {__remixContext.t[i][k] = {r:(v)=>{r(v);},e:(v)=>{e(v);}};});
+
+  return p;
+};
+__remixContext.r = function(i,k,v,e,p,x) {
+  p = __remixContext.t[i][k];
+  if (typeof e !== 'undefined') {
+    x=new Error("Unexpected Server Error");
+    x.stack=undefined;
+    p.e(x);
+  } else {
+    p.r(v);
+  }
+};Object.assign(__remixContext.state.loaderData["root"], {"cart":__remixContext.p(null)});
+Object.assign(__remixContext.state.loaderData["routes/products.$handle"], {});
+  </script>
+  <script async="" nonce="95ac1821e87a0850b9f31a2f9393e860">
+   import "https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/manifest-4afd66df.js";
+import * as route0 from "https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/root-D01rRGUy.js";
+import * as route1 from "https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/products._handle-DdgzIsvV.js";
+
+window.__remixRouteModules = {"root":route0,"routes/products.$handle":route1};
+
+import("https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/entry.client-CTkw5LZm.js");
+  </script>
+     <script src="/assets/js/carousel.js"></script>
+     <script src="/assets/js/smooth-scroll.js"></script>
+
+    <script>
+    // 移动端下拉菜单处理
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const button = dropdown.querySelector('button');
+            const content = dropdown.querySelector('.dropdown-content');
+            
+            if (button && content) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 在移动端切换显示状态
+                    if (window.innerWidth <= 768) {
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            }
+        });
+        
+        // 点击外部关闭下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

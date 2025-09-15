@@ -1,0 +1,309 @@
+/* Splide 轮播样式 */
+.splide {
+    position: relative;
+    overflow: hidden;
+    display: none; /* 默认为隐藏，移动端用 media query 显示 */
+}
+
+.splide__track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.splide__list {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.splide__slide {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+/* Splide 导航箭头 */
+.splide__arrows {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.splide__arrow {
+    position: absolute;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    pointer-events: auto;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.splide__arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+.splide__arrow:active {
+    transform: scale(0.95);
+}
+
+.splide__arrow--prev {
+    left: 20px;
+}
+
+.splide__arrow--next {
+    right: 20px;
+}
+
+/* Splide 导航点 */
+.splide__pagination {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.splide__pagination__page {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.splide__pagination__page.is-active,
+.splide__pagination__page:hover {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* Splide 进度条 */
+.media-carousel-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.media-carousel-progress-bar {
+    height: 100%;
+    background: #007bff;
+    transition: width 0.3s ease;
+}
+
+/* 主轮播容器 */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 72vh;
+    min-height: 480px;
+    overflow: hidden;
+    background: #000;
+}
+
+/* 轮播幻灯片 */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 900ms ease-in-out, transform 900ms ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(1.03);
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+/* 中央半透明面板 */
+.slide-content {
+    text-align: center;
+    color: #111;
+    z-index: 10;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.slide-content .panel {
+    background: rgba(255,255,255,0.85);
+    padding: 32px 44px;
+    border-radius: 6px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    border-top: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    display: inline-block;
+    min-width: 320px;
+}
+
+.slide-content .eyebrow {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #666;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.slide-content h1 {
+    font-size: 44px;
+    font-weight: 300;
+    margin: 0 0 18px 0;
+    color: #111;
+    line-height:1.05;
+    letter-spacing: 1px;
+}
+
+/* Shop Now 按钮 */
+.shop-now-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.6px;
+    transition: all 0.2s ease;
+    border: 2px solid #111;
+}
+
+.shop-now-btn:hover {
+    background: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+/* 主轮播导航按钮 */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 20;
+    color: #333;
+    transition: all 0.25s ease;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    backdrop-filter: blur(4px);
+}
+
+.carousel-nav:hover {
+    transform: translateY(-50%) scale(1.06);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.carousel-prev { left: 20px; }
+.carousel-next { right: 20px; }
+
+/* 轮播指示器 */
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+}
+
+.carousel-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.carousel-indicator.active,
+.carousel-indicator:hover {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* 遮罩层（轻微）*/
+.slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.05));
+    z-index: 1;
+}
+
+.slide-content { position: relative; z-index: 2; }
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .slide-content h1 { font-size: 36px; }
+    .carousel-container { height: 65vh; min-height:420px; }
+}
+
+@media (max-width: 768px) {
+    /* 在小屏隐藏主轮播，显示 .splide */
+    .carousel-container { display: none; }
+    .splide { display: block; }
+    .slide-content h1 { font-size: 22px; }
+    .slide-content .panel { padding: 18px 22px; background: rgba(255,255,255,0.9); }
+    #mobile-carousel-content { display:block; margin-top:8px; }
+}
+
+@media (max-width: 480px) {
+    .carousel-container { height: 60vh; }
+    .slide-content h1 { font-size: 20px; }
+    .shop-now-btn { padding: 8px 16px; font-size:13px; }
+}
+
+/* 减少动画（无障碍） */
+@media (prefers-reduced-motion: reduce) {
+    .slide, .slide-content, .shop-now-btn, .carousel-nav, .carousel-indicator { transition: none; animation: none; }
+}
+
+/* 打印 */
+@media print {
+    .carousel-container, .splide { height:auto; position:static; }
+    .carousel-nav, .carousel-indicators, .splide__arrows, .splide__pagination { display:none; }
+}

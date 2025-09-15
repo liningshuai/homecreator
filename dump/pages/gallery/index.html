@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+    <link href="/assets/css/carousel.css" rel="stylesheet"/>
+    <script>
+        (function(){
+            if (window.__remixContext) delete window.__remixContext;
+            if (window.__remixManifest) delete window.__remixManifest;
+            if (window.__remixRouteModules) delete window.__remixRouteModules;
+            const ofetch = window.fetch;
+            window.fetch = function(...args){
+                const u = typeof args[0]==='string'?args[0]:args[0].url;
+                if(u && u.includes('_data=')){ return Promise.reject(new Error('Remix routing disabled')); }
+                return ofetch.apply(this,args);
+            };
+            const oopen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(m,u){
+                if(u && u.includes('_data=')) throw new Error('Remix routing disabled');
+                return oopen.apply(this,arguments);
+            };
+            document.addEventListener('click',function(e){
+                const link = e.target.closest('a');
+                if(link && link.href && !link.href.startsWith('javascript:') && !link.href.startsWith('#') && !link.target){
+                    if(link.href.includes('?_data=')){
+                        e.preventDefault();
+                        window.location.href = link.href.split('?_data=')[0];
+                    }
+                }
+            },true);
+            const ops = history.pushState, ors = history.replaceState;
+            history.pushState = function(s,t,u){ if(u && u.includes('_data=')) u = u.split('?_data=')[0]; if(u && u!==window.location.href){ window.location.href=u; return; } return ops.apply(this,arguments); };
+            history.replaceState = function(s,t,u){ if(u && u.includes('_data=')) u = u.split('?_data=')[0]; return ors.apply(this,arguments); };
+            console.log('SPA disabled');
+        })();
+    </script>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <title>Homecreator | Gallery</title>
+    <link href="/fonts/fonts.css" rel="stylesheet"/>
+    <link href="/oxygen-v2/25195/21093/43647/2228123/assets/app-CGNHybmk.css" rel="stylesheet"/>
+    <link href="/oxygen-v2/25195/21093/43647/2228123/assets/splide.min-D3IVrRzL.css" rel="stylesheet"/>
+    <link href="/oxygen-v2/25195/21093/43647/2228123/assets/lightgallery-bundle.min-CQ5nw7dX.css" rel="stylesheet"/>
+    <link href="/assets/bb9821a468.unknown" rel="preconnect"/>
+    <link href="https://shop.app" rel="preconnect"/>
+    <link href="data:image/png;base64,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" rel="icon" type="image/png"/>
+    
+    <style>
+        /* 自定义样式 */
+        .admin-btn {
+            position: fixed;
+            top: 160px;
+            right: 47%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 20px;
+            border-radius: 55px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            zoom: 1;
+            transform: scale(1);
+            -webkit-text-size-adjust: none;
+            text-size-adjust: none;
+            min-width: 80px;  /* 设置最小宽度 */
+            min-height: 40px;
+        }
+        
+        .admin-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 20px;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .error-msg {
+            color: #f44336;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .gallery-manager {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            overflow-y: auto;
+        }
+        
+        .gallery-manager-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .upload-section {
+            border: 2px dashed #4CAF50;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        
+        .file-input {
+            margin: 10px 0;
+        }
+        
+        .category-select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .upload-btn {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .upload-btn:hover {
+            background-color: #0b7dda;
+        }
+        
+        .custom-images-section {
+            margin-top: 30px;
+        }
+        
+        .custom-images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .custom-image-item {
+            position: relative;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .custom-image-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        
+        .delete-btn:hover {
+            background-color: #da190b;
+        }
+        
+        .category-title {
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .preview-image {
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px auto;
+            display: none;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .custom-gallery-item {
+            background-color: #f0f0f0;
+            border: 2px dashed #999;
+        }
+        
+        .lockout-timer {
+            color: #f44336;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header class="transition-transform duration-300 sticky top-0 bg-light-cyan z-50 translate-y-0">
+        <link href="/assets/css/main.css" rel="stylesheet"/>
+        <div class="container w-full py-5 md:py-6 lg:py-8">
+            <div class="flex justify-between w-full">
+                <div class="flex items-center gap-4 md:gap-6">
+                    <div class="block lg:hidden">
+                        <button title="Open Menu" type="button">
+                            <svg aria-hidden="true" class="w-6 h-6" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <a class="inline-block" data-discover="true" href="../../">
+                        <img alt="Homecreator Logo" class="w-[150px] md:w-[170px] lg:w-[230px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+                    </a>
+                </div>
+                <div class="flex items-center justify-between gap-x-4 md:gap-x-6">
+                    <a class="hidden text-sm md:inline-block hover:underline" href="mailto:info@homecreator.com.au">
+                        info@homecreator.com.au
+                    </a>
+                    <button class="relative" title="Open Cart" type="button">
+                        <svg aria-hidden="true" class="relative z-0 w-6 h-6" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="hidden lg:block">
+                <nav class="flex items-center justify-center w-full mt-8 font-semibold text-center gap-y-6 gap-x-8 lg:justify-between" role="navigation">
+                    <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../../">Home</a>
+                    <div class="relative inline-block font-semibold text-left group" data-headlessui-state="">
+                        <div>
+                            <a href="/collections/" class="inline-flex items-center justify-center w-full leading-none rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-black underline-offset-8 decoration-2 group-hover:underline">
+                                <div class="nav-item dropdown">
+                                    <button class="inline-flex items-center justify-center leading-none rounded-md focus:outline-none underline-offset-8 decoration-2 hover:underline">
+                                        <span>Custom made-to-order</span>
+                                        <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <div class="nav-dropdown dropdown-content">
+                                        <a href="/collections/plantation-shutters/">Plantation Shutters</a>
+                                        <a href="/collections/sheer-curtains/">S Fold Curtains</a>
+                                        <a href="/collections/bamboo-jute-woven-roman-blinds/">Bamboo & Jute Woven Roman Blinds</a>
+                                        <a href="/collections/custom-blockout-roller-blinds/">Roller Blinds</a>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../guides/">Guides</a>
+                    <a aria-current="page" class="underline-offset-8 decoration-2 hover:underline px-1 leading-none underline active" data-discover="true" href="/">Gallery</a>
+                    <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../quote-and-order/">Quote and Order</a>
+                    <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../contact/">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container my-10">
+            <div class="mb-5 -mt-5">
+                <ul class="flex items-center gap-2 text-sm font-semibold">
+                    <li class="flex items-center gap-2">
+                        <a class="text-gray-500 hover:underline hover:text-black" data-discover="true" href="../../">Home</a>
+                        <span>
+                            <svg aria-hidden="true" class="w-4 h-4" data-slot="icon" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path clip-rule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" fill-rule="evenodd"></path>
+                            </svg>
+                        </span>
+                    </li>
+                    <li><span>Gallery</span></li>
+                </ul>
+            </div>
+            <div>
+                <div class="mb-8">
+                    <h1 class="mb-4 text-5xl">Home Creator's Gallery</h1>
+                    <p class="text-xl">
+                        Visit our <a class="underline underline-offset-4 hover:text-rose" href="https://www.facebook.com/HomeCreatorAU">Facebook page</a> for more gallery photos
+                    </p>
+                </div>
+                <ul id="gallery-grid" class="grid grid-cols-2 gap-4 md:gap-6 md:grid-cols-4">
+                    <li>
+                        <a class="flex flex-col items-center justify-start gap-4" data-discover="true" href="../roller-blinds-gallery/">
+                            <div>
+                                <img alt="Roller Blinds Gallery" class="object-cover rounded-sm" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/files/RB-1.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/files/RB-1.jpg?v=1668129038&amp;width=200&amp;height=200&amp;crop=center 200w, https://cdn.shopify.com/s/files/1/0677/9650/0800/files/RB-1.jpg?v=1668129038&amp;width=400&amp;height=400&amp;crop=center 400w" style="aspect-ratio:1/1" width="800"/>
+                            </div>
+                            <h2 class="font-semibold text-center">Roller Blinds Gallery</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex flex-col items-center justify-start gap-4" data-discover="true" href="../plantation-shutters-gallery/">
+                            <div>
+                                <img alt="Plantation Shutters Gallery" class="object-cover rounded-sm" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/files/PS-1.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/files/PS-1.jpg?v=1668129044&amp;width=200&amp;height=200&amp;crop=center 200w, https://cdn.shopify.com/s/files/1/0677/9650/0800/files/PS-1.jpg?v=1668129044&amp;width=400&amp;height=400&amp;crop=center 400w" style="aspect-ratio:1/1" width="800"/>
+                            </div>
+                            <h2 class="font-semibold text-center">Plantation Shutters Gallery</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex flex-col items-center justify-start gap-4" data-discover="true" href="../curtains-gallery/">
+                            <div>
+                                <img alt="Curtains Gallery" class="object-cover rounded-sm" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/files/CT-1.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/files/CT-1.jpg?v=1668129044&amp;width=200&amp;height=200&amp;crop=center 200w, https://cdn.shopify.com/s/files/1/0677/9650/0800/files/CT-1.jpg?v=1668129044&amp;width=400&amp;height=400&amp;crop=center 400w" style="aspect-ratio:1/1" width="800"/>
+                            </div>
+                            <h2 class="font-semibold text-center">Curtains Gallery</h2>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="flex flex-col items-center justify-start gap-4" data-discover="true" href="../bamboo-jute-woven-roman-blinds-gallery/">
+                            <div>
+                                <img alt="Bamboo &amp; Jute Woven Roman Blinds Gallery" class="object-cover rounded-sm" decoding="async" height="800" loading="lazy" src="/s/files/1/0677/9650/0800/files/BW-2.jpg" srcset="https://cdn.shopify.com/s/files/1/0677/9650/0800/files/BW-2.jpg?v=1668129044&amp;width=200&amp;height=200&amp;crop=center 200w, https://cdn.shopify.com/s/files/1/0677/9650/0800/files/BW-2.jpg?v=1668129044&amp;width=400&amp;height=400&amp;crop=center 400w" style="aspect-ratio:1/1" width="800"/>
+                            </div>
+                            <h2 class="font-semibold text-center">Bamboo &amp; Jute Woven Roman Blinds Gallery</h2>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Add Button -->
+    <button class="admin-btn" onclick="openLoginModal()">Add</button>
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 20px;">Admin Login</h2>
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="submit-btn" id="loginBtn">Login</button>
+                <div class="error-msg" id="errorMsg"></div>
+                <div class="lockout-timer" id="lockoutTimer" style="display: none;"></div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Gallery Manager Modal -->
+    <div id="galleryManager" class="gallery-manager">
+        <div class="gallery-manager-content">
+            <span class="close" onclick="closeGalleryManager()">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 20px;">Gallery Image Manager</h2>
+            
+            <div class="upload-section">
+                <h3>Upload New Image</h3>
+                <input type="file" id="imageFile" class="file-input" accept=".png,.jpg,.jpeg" onchange="previewImage(event)">
+                <img id="previewImg" class="preview-image" alt="Preview">
+                <select id="categorySelect" class="category-select">
+                    <option value="">Select Category</option>
+                    <option value="roller-blinds">Roller Blinds Gallery</option>
+                    <option value="plantation-shutters">Plantation Shutters Gallery</option>
+                    <option value="curtains">Curtains Gallery</option>
+                    <option value="bamboo-jute">Bamboo & Jute Woven Roman Blinds Gallery</option>
+                </select>
+                <br>
+                <button class="upload-btn" onclick="uploadImage()">Upload Image</button>
+            </div>
+            
+            <div class="custom-images-section">
+                <h3>Manage Custom Images</h3>
+                
+                <div id="rollerBlindsCustom">
+                    <div class="category-title">Roller Blinds Gallery</div>
+                    <div class="custom-images-grid" id="roller-blinds-grid"></div>
+                </div>
+                
+                <div id="plantationShuttersCustom">
+                    <div class="category-title">Plantation Shutters Gallery</div>
+                    <div class="custom-images-grid" id="plantation-shutters-grid"></div>
+                </div>
+                
+                <div id="curtainsCustom">
+                    <div class="category-title">Curtains Gallery</div>
+                    <div class="custom-images-grid" id="curtains-grid"></div>
+                </div>
+                
+                <div id="bambooJuteCustom">
+                    <div class="category-title">Bamboo & Jute Woven Roman Blinds Gallery</div>
+                    <div class="custom-images-grid" id="bamboo-jute-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <footer class="bg-light-cyan">
+            <div class="container py-10">
+                <div class="mb-10">
+                    <nav class="grid grid-cols-2 gap-10 md:gap-20 md:flex footer-menu">
+                        <div class="space-y-3">
+                            <legend class="font-semibold">Shop</legend>
+                            <ul class="group">
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../">Custom made-to-order</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="/">Gallery</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../quote-and-order/">Quote and Order</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../guides/">Installation/Measuring Guides</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <legend class="font-semibold">Home Creator</legend>
+                            <ul class="group">
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/shipping-policy/">Shipping</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../contact/">Contact</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/terms-of-service/">Terms and Conditions</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/privacy-policy/">Privacy Policy</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../warranty/">Warranty</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="space-y-3">
+                            <legend class="font-semibold">Help</legend>
+                            <ul class="group">
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../trade-program/">Trade Program</a>
+                                </li>
+                                <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+                                    <a class="block px-1 py-1 -mx-1" data-discover="true" href="../contact/">Store Pickup</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="flex flex-col justify-between mb-8 md:items-center gap-y-6 md:flex-row md:mb-6">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <a class="flex items-center gap-2" href="https://www.facebook.com/HomeCreatorAU" rel="noreferrer" target="_blank" title="Facebook">
+                                <svg class="w-5 h-5" viewbox="0 0 12.498 26.773" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M230.953,156.629v-13.4h4.423l.7-4.442h-5.122v-2.227c0-1.159.38-2.265,2.044-2.265h3.325v-4.434H231.6c-3.969,0-5.052,2.614-5.052,6.237v2.688h-2.723v4.444h2.723v13.4Z" transform="translate(-223.825 -129.856)"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <a class="inline-block" data-discover="true" href="../../">
+                        <img alt="Homecreator Logo" class="w-[170px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+                    </a>
+                </div>
+                <div class="flex flex-col justify-between gap-5 md:gap-0 md:flex-row">
+                    <p class="order-2 text-center md:order-1 md:text-left">
+                        © 2025 Home Creator. All Rights Reserved. Home Creator is proudly founded and based in Australia.
+                    </p>
+                    <div class="order-1 mx-auto md:order-2 md:mr-0">
+                        <img alt="Mastercard, Paypal, Visa, Afterpay" class="w-[140px] h-auto" height="21.5" src="/s/files/1/0677/9650/0800/files/payment-options-hc.png" width="140"/>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </footer>
+    
+    <script src="/assets/js/carousel.js"></script>
+    <script src="/assets/js/smooth-scroll.js"></script>
+    
+    <script>
+        // 全局变量
+        let failedAttempts = 0;
+        let lockoutEndTime = null;
+        let lockoutTimer = null;
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCustomImages();
+            checkLockout();
+        });
+        
+        // 打开登录模态框
+        function openLoginModal() {
+            document.getElementById('loginModal').style.display = 'block';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMsg').style.display = 'none';
+            checkLockout();
+        }
+        
+        // 关闭登录模态框
+        function closeLoginModal() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+        
+        // 检查锁定状态
+        function checkLockout() {
+            const lockoutData = localStorage.getItem('lockoutData');
+            if (lockoutData) {
+                const data = JSON.parse(lockoutData);
+                lockoutEndTime = new Date(data.endTime);
+                failedAttempts = data.attempts;
+                
+                if (new Date() < lockoutEndTime) {
+                    startLockoutTimer();
+                } else {
+                    clearLockout();
+                }
+            }
+        }
+        
+        // 开始锁定计时器
+        function startLockoutTimer() {
+            const loginBtn = document.getElementById('loginBtn');
+            const lockoutTimerDiv = document.getElementById('lockoutTimer');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            loginBtn.disabled = true;
+            lockoutTimerDiv.style.display = 'block';
+            errorMsg.style.display = 'none';
+            
+            function updateTimer() {
+                const now = new Date();
+                const remainingTime = Math.ceil((lockoutEndTime - now) / 1000);
+                
+                if (remainingTime > 0) {
+                    lockoutTimerDiv.textContent = `Account locked. Please wait ${remainingTime} seconds.`;
+                    lockoutTimer = setTimeout(updateTimer, 1000);
+                } else {
+                    clearLockout();
+                }
+            }
+            
+            updateTimer();
+        }
+        
+        // 清除锁定
+        function clearLockout() {
+            localStorage.removeItem('lockoutData');
+            failedAttempts = 0;
+            lockoutEndTime = null;
+            if (lockoutTimer) {
+                clearTimeout(lockoutTimer);
+            }
+            document.getElementById('loginBtn').disabled = false;
+            document.getElementById('lockoutTimer').style.display = 'none';
+        }
+        
+        // 处理登录
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            if (lockoutEndTime && new Date() < lockoutEndTime) {
+                return false;
+            }
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            // 验证账号密码
+            if (username === 'admin' && password === 'admin') {
+                // 登录成功
+                clearLockout();
+                closeLoginModal();
+                openGalleryManager();
+            } else {
+                // 登录失败
+                failedAttempts++;
+                
+                if (failedAttempts >= 3) {
+                    // 锁定30秒
+                    lockoutEndTime = new Date(Date.now() + 30000); // 30秒
+                    localStorage.setItem('lockoutData', JSON.stringify({
+                        endTime: lockoutEndTime.toISOString(),
+                        attempts: failedAttempts
+                    }));
+                    startLockoutTimer();
+                    errorMsg.textContent = 'Too many failed attempts. Account locked for 30 seconds.';
+                } else {
+                    errorMsg.textContent = `Invalid username or password. ${3 - failedAttempts} attempts remaining.`;
+                }
+                
+                errorMsg.style.display = 'block';
+            }
+            
+            return false;
+        }
+        
+        // 打开图库管理器
+        function openGalleryManager() {
+            document.getElementById('galleryManager').style.display = 'block';
+            loadCustomImages();
+        }
+        
+        // 关闭图库管理器
+        function closeGalleryManager() {
+            document.getElementById('galleryManager').style.display = 'none';
+        }
+        
+        // 预览图片
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById('previewImg');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // 上传图片
+        function uploadImage() {
+            const fileInput = document.getElementById('imageFile');
+            const categorySelect = document.getElementById('categorySelect');
+            
+            if (!fileInput.files[0]) {
+                alert('Please select an image file.');
+                return;
+            }
+            
+            if (!categorySelect.value) {
+                alert('Please select a category.');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const imageData = e.target.result;
+                const imageId = Date.now().toString();
+                
+                // 从localStorage获取现有图片
+                let customImages = JSON.parse(localStorage.getItem('customGalleryImages') || '{}');
+                
+                if (!customImages[categorySelect.value]) {
+                    customImages[categorySelect.value] = [];
+                }
+                
+                // 添加新图片
+                customImages[categorySelect.value].push({
+                    id: imageId,
+                    src: imageData,
+                    name: file.name,
+                    category: categorySelect.value
+                });
+                
+                // 保存到localStorage
+                localStorage.setItem('customGalleryImages', JSON.stringify(customImages));
+                
+                // 重新加载图片
+                loadCustomImages();
+                
+                // 清空表单
+                fileInput.value = '';
+                categorySelect.value = '';
+                document.getElementById('previewImg').style.display = 'none';
+                
+                alert('Image uploaded successfully!');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        // 删除图片
+        function deleteImage(category, imageId) {
+            if (confirm('Are you sure you want to delete this image?')) {
+                let customImages = JSON.parse(localStorage.getItem('customGalleryImages') || '{}');
+                
+                if (customImages[category]) {
+                    customImages[category] = customImages[category].filter(img => img.id !== imageId);
+                    
+                    if (customImages[category].length === 0) {
+                        delete customImages[category];
+                    }
+                    
+                    localStorage.setItem('customGalleryImages', JSON.stringify(customImages));
+                    loadCustomImages();
+                    alert('Image deleted successfully!');
+                }
+            }
+        }
+        
+        // 加载自定义图片
+        function loadCustomImages() {
+            const customImages = JSON.parse(localStorage.getItem('customGalleryImages') || '{}');
+            
+            // 在管理器中显示图片
+            const categories = [
+                { key: 'roller-blinds', gridId: 'roller-blinds-grid' },
+                { key: 'plantation-shutters', gridId: 'plantation-shutters-grid' },
+                { key: 'curtains', gridId: 'curtains-grid' },
+                { key: 'bamboo-jute', gridId: 'bamboo-jute-grid' }
+            ];
+            
+            categories.forEach(cat => {
+                const grid = document.getElementById(cat.gridId);
+                if (grid) {
+                    grid.innerHTML = '';
+                    
+                    if (customImages[cat.key]) {
+                        customImages[cat.key].forEach(img => {
+                            const item = document.createElement('div');
+                            item.className = 'custom-image-item';
+                            item.innerHTML = `
+                                <img src="${img.src}" alt="${img.name}">
+                                <button class="delete-btn" onclick="deleteImage('${cat.key}', '${img.id}')">Delete</button>
+                            `;
+                            grid.appendChild(item);
+                        });
+                    } else {
+                        grid.innerHTML = '<p style="color: #999;">No custom images</p>';
+                    }
+                }
+            });
+            
+            // 在主页面显示自定义图片
+            updateMainGallery(customImages);
+        }
+        
+        // 更新主页面图库
+        // 更新主页面图库
+        function updateMainGallery(customImages) {
+            // 为每个分类添加自定义图片数量标记
+            const categoryInfo = [
+                { key: 'roller-blinds', href: '../roller-blinds-gallery/' },
+                { key: 'plantation-shutters', href: '../plantation-shutters-gallery/' },
+                { key: 'curtains', href: '../curtains-gallery/' },
+                { key: 'bamboo-jute', href: '../bamboo-jute-woven-roman-blinds-gallery/' }
+            ];
+            
+            categoryInfo.forEach(cat => {
+                // 找到对应的链接元素
+                const link = document.querySelector(`a[href="${cat.href}"]`);
+                if (link && customImages[cat.key] && customImages[cat.key].length > 0) {
+                    const h2 = link.querySelector('h2');
+                    if (h2) {
+                        // 移除旧的标记（如果有）
+                        const oldBadge = h2.querySelector('.custom-count');
+                        if (oldBadge) {
+                            oldBadge.remove();
+                        }
+                        
+                        // 添加新的数量标记
+                        const badge = document.createElement('span');
+                        badge.className = 'custom-count';
+                        badge.style.cssText = `
+                            display: inline-block;
+                            background: #4CAF50;
+                            color: white;
+                            padding: 2px 8px;
+                            border-radius: 12px;
+                            font-size: 12px;
+                            margin-left: 8px;
+                            vertical-align: middle;
+                        `;
+                        badge.textContent = `+${customImages[cat.key].length}`;
+                        h2.appendChild(badge);
+                    }
+                }
+            });
+        }
+        
+        // 点击外部关闭模态框
+        window.onclick = function(event) {
+            const loginModal = document.getElementById('loginModal');
+            const galleryManager = document.getElementById('galleryManager');
+            
+            if (event.target === loginModal) {
+                closeLoginModal();
+            }
+            if (event.target === galleryManager) {
+                closeGalleryManager();
+            }
+        }
+        
+        // 移动端下拉菜单处理
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const button = dropdown.querySelector('button');
+                const content = dropdown.querySelector('.dropdown-content');
+                
+                if (button && content) {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // 在移动端切换显示状态
+                        if (window.innerWidth <= 768) {
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+            
+            // 点击外部关闭下拉菜单
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    dropdowns.forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+    <link href="/assets/css/carousel.css" rel="stylesheet"/>
+  <script>
+   (function(){
+            if (window.__remixContext) delete window.__remixContext;
+            if (window.__remixManifest) delete window.__remixManifest;
+            if (window.__remixRouteModules) delete window.__remixRouteModules;
+            const ofetch = window.fetch;
+            window.fetch = function(...args){
+                const u = typeof args[0]==='string'?args[0]:args[0].url;
+                if(u && u.includes('_data=')){ return Promise.reject(new Error('Remix routing disabled')); }
+                return ofetch.apply(this,args);
+            };
+            const oopen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(m,u){
+                if(u && u.includes('_data=')) throw new Error('Remix routing disabled');
+                return oopen.apply(this,arguments);
+            };
+            document.addEventListener('click',function(e){
+                const link = e.target.closest('a');
+                if(link && link.href && !link.href.startsWith('javascript:') && !link.href.startsWith('#') && !link.target){
+                    if(link.href.includes('?_data=')){
+                        e.preventDefault();
+                        window.location.href = link.href.split('?_data=')[0];
+                    }
+                }
+            },true);
+            const ops = history.pushState, ors = history.replaceState;
+            history.pushState = function(s,t,u){ if(u && u.includes('_data=')) u = u.split('?_data=')[0]; if(u && u!==window.location.href){ window.location.href=u; return; } return ops.apply(this,arguments); };
+            history.replaceState = function(s,t,u){ if(u && u.includes('_data=')) u = u.split('?_data=')[0]; return ors.apply(this,arguments); };
+            console.log('SPA disabled');
+        })();
+  </script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <title>
+   Homecreator | Contact
+  </title>
+  <link href="/fonts/fonts.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/app-CGNHybmk.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/splide.min-D3IVrRzL.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/lightgallery-bundle.min-CQ5nw7dX.css" rel="stylesheet"/>
+  <link href="/assets/bb9821a468.unknown" rel="preconnect"/>
+  <link href="https://shop.app" rel="preconnect"/>
+  <link href="data:image/png;base64,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" rel="icon" type="image/png"/>
+ </head>
+ <body>
+  <header class="transition-transform duration-300 sticky top-0 bg-light-cyan z-50 translate-y-0">
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+   <div class="container w-full py-5 md:py-6 lg:py-8">
+    <div class="flex justify-between w-full">
+     <div class="flex items-center gap-4 md:gap-6">
+      <div class="block lg:hidden">
+       <button title="Open Menu" type="button">
+        <svg aria-hidden="true" class="w-6 h-6" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+         <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round">
+         </path>
+        </svg>
+       </button>
+      </div>
+      <a class="inline-block" data-discover="true" href="../../">
+       <img alt="Homecreator Logo" class="w-[150px] md:w-[170px] lg:w-[230px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+      </a>
+     </div>
+     <div class="flex items-center justify-between gap-x-4 md:gap-x-6">
+      <a class="hidden text-sm md:inline-block hover:underline" href="mailto:info@homecreator.com.au">
+       info@homecreator.com.au
+      </a>
+      <!--$-->
+      <button class="relative" title="Open Cart" type="button">
+       <svg aria-hidden="true" class="relative z-0 w-6 h-6" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" stroke-linecap="round" stroke-linejoin="round">
+        </path>
+       </svg>
+      </button>
+      <!--/$-->
+     </div>
+    </div>
+    <div class="hidden lg:block">
+     <nav class="flex items-center justify-center w-full mt-8 font-semibold text-center gap-y-6 gap-x-8 lg:justify-between" role="navigation">
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../../">
+       Home
+      </a>
+      <div class="relative inline-block font-semibold text-left group" data-headlessui-state="">
+       <div>
+        <a href="/collections/" class="inline-flex items-center justify-center w-full leading-none rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-black underline-offset-8 decoration-2 group-hover:underline"><div class="nav-item dropdown">
+                <button class="inline-flex items-center justify-center leading-none rounded-md focus:outline-none underline-offset-8 decoration-2 hover:underline">
+                    <span>Custom made-to-order</span>
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="nav-dropdown dropdown-content">
+                    <a href="/collections/plantation-shutters/">Plantation Shutters</a>
+                    <a href="/collections/sheer-curtains/">S Fold Curtains</a>
+                    <a href="/collections/bamboo-jute-woven-roman-blinds/">Bamboo & Jute Woven Roman Blinds</a>
+                    <a href="/collections/custom-blockout-roller-blinds/">Roller Blinds</a>
+                </div>
+            </div></a>
+         <svg aria-hidden="true" class="w-5 h-5 ml-2 -mr-1" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="m19.5 8.25-7.5 7.5-7.5-7.5" stroke-linecap="round" stroke-linejoin="round">
+          </path>
+         </svg>
+        </button>
+       </div>
+      </div>
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../guides/">
+       Guides
+      </a>
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../gallery/">
+       Gallery
+      </a>
+      <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" data-discover="true" href="../quote-and-order/">
+       Quote and Order
+      </a>
+      <a aria-current="page" class="underline-offset-8 decoration-2 hover:underline px-1 leading-none underline active" data-discover="true" href="/">
+       Contact
+      </a>
+     </nav>
+    </div>
+   </div>
+  </header>
+  <main>
+   <div class="container py-8">
+    <h1 class="sr-only">
+     Contact us
+    </h1>
+    <div class="mb-4">
+    </div>
+    <div class="w-full">
+     <div class="w-full">
+      <div class="w-full max-w-2xl">
+       <div>
+        <h2 class="mb-6 text-3xl">
+         Contact Details
+        </h2>
+        <ul class="space-y-4 font-medium">
+         <li class="flex items-start gap-3">
+          <div class="flex items-center justify-center rounded-md w-11 h-11 bg-rose shrink-0">
+           <svg aria-hidden="true" class="w-5 h-5 text-white" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+           </svg>
+          </div>
+          <span>
+           Home Creator: ABN 776 8050 9721
+          </span>
+         </li>
+         <li class="flex items-start gap-3">
+          <div class="flex items-center justify-center rounded-md w-11 h-11 bg-rose shrink-0">
+           <svg aria-hidden="true" class="w-5 h-5 text-white" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+           </svg>
+          </div>
+          <span>
+           <a class="hover:underline underline-offset-2" href="mailto:info@homecreator.com.au">
+            info@homecreator.com.au
+           </a>
+          </span>
+         </li>
+         <li class="flex items-start gap-3">
+          <div class="flex items-center justify-center rounded-md w-11 h-11 bg-rose shrink-0">
+           <svg aria-hidden="true" class="w-5 h-5 text-white" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+           </svg>
+          </div>
+          <span>
+           Contact Phone:
+           <a href="tel:0431 559 538">
+            0431 559 538
+           </a>
+          </span>
+         </li>
+         <li class="flex items-start gap-3">
+          <div class="flex items-center justify-center rounded-md w-11 h-11 bg-rose shrink-0">
+           <svg aria-hidden="true" class="w-5 h-5 text-white" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+            <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" stroke-linecap="round" stroke-linejoin="round">
+            </path>
+           </svg>
+          </div>
+          <span>
+           Pick Up Locations:
+           <br/>
+           Unit 3/8-12 Coora Rd
+           <br/>
+           Oakleigh South VIC 3167
+          </span>
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </main>
+  <footer class="footer">
+   <footer class="bg-light-cyan">
+    <div class="container py-10">
+     <div class="mb-10">
+      <nav class="grid grid-cols-2 gap-10 md:gap-20 md:flex footer-menu">
+       <div class="space-y-3">
+        <legend class="font-semibold">
+         Shop
+        </legend>
+        <ul class="group">
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../">
+           Custom made-to-order
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../gallery/">
+           Gallery
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../quote-and-order/">
+           Quote and Order
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../guides/">
+           Installation/Measuring Guides
+          </a>
+         </li>
+        </ul>
+       </div>
+       <div class="space-y-3">
+        <legend class="font-semibold">
+         Home Creator
+        </legend>
+        <ul class="group">
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/shipping-policy/">
+           Shipping
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="/">
+           Contact
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/terms-of-service/">
+           Terms and Conditions
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../../policies/privacy-policy/">
+           Privacy Policy
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../warranty/">
+           Warranty
+          </a>
+         </li>
+        </ul>
+       </div>
+       <div class="space-y-3">
+        <legend class="font-semibold">
+         Help
+        </legend>
+        <ul class="group">
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="../trade-program/">
+           Trade Program
+          </a>
+         </li>
+         <li class="group-hover:opacity-50 group-focus-within:opacity-50 hover:!opacity-100 focus-within:!opacity-100 transition-opacity">
+          <a class="block px-1 py-1 -mx-1" data-discover="true" href="/">
+           Store Pickup
+          </a>
+         </li>
+        </ul>
+       </div>
+      </nav>
+     </div>
+     <div class="flex flex-col justify-between mb-8 md:items-center gap-y-6 md:flex-row md:mb-6">
+      <div>
+       <div class="flex items-center gap-2">
+        <a class="flex items-center gap-2" href="https://www.facebook.com/HomeCreatorAU" rel="noreferrer" target="_blank" title="Facebook">
+         <svg class="w-5 h-5" viewbox="0 0 12.498 26.773" xmlns="http://www.w3.org/2000/svg">
+          <path d="M230.953,156.629v-13.4h4.423l.7-4.442h-5.122v-2.227c0-1.159.38-2.265,2.044-2.265h3.325v-4.434H231.6c-3.969,0-5.052,2.614-5.052,6.237v2.688h-2.723v4.444h2.723v13.4Z" transform="translate(-223.825 -129.856)">
+          </path>
+         </svg>
+        </a>
+       </div>
+      </div>
+      <a class="inline-block" data-discover="true" href="../../">
+       <img alt="Homecreator Logo" class="w-[170px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+      </a>
+     </div>
+     <div class="flex flex-col justify-between gap-5 md:gap-0 md:flex-row">
+      <p class="order-2 text-center md:order-1 md:text-left">
+       Â©
+       <!-- -->
+       2025
+       <!-- -->
+       Home Creator. All Rights Reserved. Home Creator is proudly founded and based in Australia.
+      </p>
+      <div class="order-1 mx-auto md:order-2 md:mr-0">
+       <img alt="Mastercard, Paypal, Visa, Afterpay" class="w-[140px] h-auto" height="21.5" src="/s/files/1/0677/9650/0800/files/payment-options-hc.png" width="140"/>
+      </div>
+     </div>
+    </div>
+   </footer>
+  </footer>
+  <script nonce="e0b7dd1ade5b23527a934b2628161a60">
+   ((c,f)=>{if(!window.history.state||!window.history.state.key){let p=Math.random().toString(32).slice(2);window.history.replaceState({key:p},"")}try{let g=JSON.parse(sessionStorage.getItem(c)||"{}")[f||window.history.state.key];typeof g=="number"&&window.scrollTo(0,g)}catch(p){console.error(p),sessionStorage.removeItem(c)}})("positions", null)
+  </script>
+  <script nonce="e0b7dd1ade5b23527a934b2628161a60">
+   window.__remixContext = {"basename":"/","future":{"v3_fetcherPersist":true,"v3_relativeSplatPath":true,"v3_throwAbortReason":true,"v3_routeConfig":false,"v3_singleFetch":false,"v3_lazyRouteDiscovery":false,"unstable_optimizeDeps":false},"isSpaMode":false,"state":{"loaderData":{"root":{"cart":{},"footer":{"menu":{"id":"gid:/shopify/Menu/210069029184","items":[{"id":"gid:/shopify/MenuItem/489181577536","resourceId":null,"tags":[],"title":"HEADING_Shop","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489181643072","resourceId":null,"tags":[],"title":"Custom made-to-order","type":"HTTP","url":"/collections/"},{"id":"gid:/shopify/MenuItem/598861185344","resourceId":"gid:/shopify/Page/104996929856","tags":[],"title":"Gallery","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/gallery"},{"id":"gid:/shopify/MenuItem/489181675840","resourceId":"gid:/shopify/Page/104996438336","tags":[],"title":"Quote and Order","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/quote-and-order"},{"id":"gid:/shopify/MenuItem/498867896640","resourceId":"gid:/shopify/Page/106613670208","tags":[],"title":"Installation/Measuring Guides","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/guides"}]},{"id":"gid:/shopify/MenuItem/489181872448","resourceId":null,"tags":[],"title":"HEADING_Home Creator","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489182036288","resourceId":"gid:/shopify/ShopPolicy/28075098432","tags":[],"title":"Shipping","type":"SHOP_POLICY","url":"https://checkout.homecreator.com.au/policies/shipping-policy"},{"id":"gid:/shopify/MenuItem/492313772352","resourceId":"gid:/shopify/Page/104774795584","tags":[],"title":"Contact","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/contact"},{"id":"gid:/shopify/MenuItem/489181937984","resourceId":"gid:/shopify/ShopPolicy/28075065664","tags":[],"title":"Terms and Conditions","type":"SHOP_POLICY","url":"https://checkout.homecreator.com.au/policies/terms-of-service"},{"id":"gid:/shopify/MenuItem/489181970752","resourceId":"gid:/shopify/ShopPolicy/28075032896","tags":[],"title":"Privacy Policy","type":"SHOP_POLICY","url":"https://checkout.homecreator.com.au/policies/privacy-policy"},{"id":"gid:/shopify/MenuItem/489182003520","resourceId":"gid:/shopify/Page/114697666880","tags":[],"title":"Warranty","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/warranty"}]},{"id":"gid:/shopify/MenuItem/489182069056","resourceId":null,"tags":[],"title":"HEADING_Help","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489182232896","resourceId":"gid:/shopify/Page/104865988928","tags":[],"title":"Trade Program","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/trade-program"},{"id":"gid:/shopify/MenuItem/489182265664","resourceId":"gid:/shopify/Page/104774795584","tags":[],"title":"Store Pickup","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/contact"}]}]}},"header":{"shop":{"id":"gid:/shopify/Shop/67796500800","name":"Home Creator","description":"","primaryDomain":{"url":"/collections/"},"brand":{"logo":{"image":{"url":"https://cdn.shopify.com/s/files/1/0677/9650/0800/files/hc_logo.f94ed4a3.png?v=1686184300"}}}},"menu":{"id":"gid:/shopify/Menu/210068996416","items":[{"id":"gid:/shopify/MenuItem/488880832832","resourceId":null,"tags":[],"title":"Home","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[]},{"id":"gid:/shopify/MenuItem/489644458304","resourceId":null,"tags":[],"title":"HEADING_Custom made-to-order","type":"FRONTPAGE","url":"https://checkout.homecreator.com.au/","items":[{"id":"gid:/shopify/MenuItem/489646260544","resourceId":"gid:/shopify/Collection/429956006208","tags":[],"title":"Plantation Shutters","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/plantation-shutters"},{"id":"gid:/shopify/MenuItem/491182915904","resourceId":"gid:/shopify/Collection/429956137280","tags":[],"title":"S Fold Curtains","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/sheer-curtains"},{"id":"gid:/shopify/MenuItem/491182948672","resourceId":"gid:/shopify/Collection/429955907904","tags":[],"title":"Bamboo \u0026 Jude Woven Roman Blinds","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/bamboo-jute-woven-roman-blinds"},{"id":"gid:/shopify/MenuItem/731582136640","resourceId":"gid:/shopify/Collection/427370676544","tags":[],"title":"Roller Blinds","type":"COLLECTION","url":"https://checkout.homecreator.com.au/collections/roller-blinds"}]},{"id":"gid:/shopify/MenuItem/495409201472","resourceId":"gid:/shopify/Page/106613670208","tags":[],"title":"Guides","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/guides","items":[]},{"id":"gid:/shopify/MenuItem/489646096704","resourceId":"gid:/shopify/Page/104996929856","tags":[],"title":"Gallery","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/gallery","items":[]},{"id":"gid:/shopify/MenuItem/489646129472","resourceId":"gid:/shopify/Page/104996438336","tags":[],"title":"Quote and Order","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/quote-and-order","items":[]},{"id":"gid:/shopify/MenuItem/492313805120","resourceId":"gid:/shopify/Page/104774795584","tags":[],"title":"Contact","type":"PAGE","url":"https://checkout.homecreator.com.au/pages/contact","items":[]}]}},"isLoggedIn":false,"publicStoreDomain":"homecreator-au.myshopify.com","ENV":{"LIGHTGALLERY_LICENSE_KEY":"36102212-B91446B2-A80FCCAA-832FCF99"}},"routes/pages.contact":{"page":{"id":"gid:/shopify/Page/104774795584","title":"Contact","body":"","seo":{"description":null,"title":null}}}},"actionData":null,"errors":null}};__remixContext.p = function(v,e,p,x) {
+  if (typeof e !== 'undefined') {
+    x=new Error("Unexpected Server Error");
+    x.stack=undefined;
+    p=Promise.reject(x);
+  } else {
+    p=Promise.resolve(v);
+  }
+  return p;
+};
+__remixContext.n = function(i,k) {
+  __remixContext.t = __remixContext.t || {};
+  __remixContext.t[i] = __remixContext.t[i] || {};
+  let p = new Promise((r, e) => {__remixContext.t[i][k] = {r:(v)=>{r(v);},e:(v)=>{e(v);}};});
+
+  return p;
+};
+__remixContext.r = function(i,k,v,e,p,x) {
+  p = __remixContext.t[i][k];
+  if (typeof e !== 'undefined') {
+    x=new Error("Unexpected Server Error");
+    x.stack=undefined;
+    p.e(x);
+  } else {
+    p.r(v);
+  }
+};Object.assign(__remixContext.state.loaderData["root"], {"cart":__remixContext.p(null)});
+  </script>
+  <script async="" nonce="e0b7dd1ade5b23527a934b2628161a60">
+   import "https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/manifest-4afd66df.js";
+import * as route0 from "https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/root-D01rRGUy.js";
+import * as route1 from "https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/pages.contact-9ijShHiT.js";
+
+window.__remixRouteModules = {"root":route0,"routes/pages.contact":route1};
+
+import("https://cdn.shopify.com/oxygen-v2/25195/21093/43647/2228123/assets/entry.client-CTkw5LZm.js");
+  </script>
+     <script src="/assets/js/carousel.js"></script>
+     <script src="/assets/js/smooth-scroll.js"></script>
+     <script src="/assets/js/smooth-scroll.js"></script>
+
+    <script>
+    // 移动端下拉菜单处理
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const button = dropdown.querySelector('button');
+            const content = dropdown.querySelector('.dropdown-content');
+            
+            if (button && content) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 在移动端切换显示状态
+                    if (window.innerWidth <= 768) {
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            }
+        });
+        
+        // 点击外部关闭下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

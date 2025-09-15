@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/assets/css/carousel.css" rel="stylesheet"/>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <title>Homecreator | S Fold Curtains</title>
+    <link href="/fonts/fonts.css" rel="stylesheet"/>
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+</head>
+<body class="bg-white">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8">S Fold Curtains</h1>
+        <div class="text-center">
+            <p class="text-lg text-gray-600 mb-8">Explore our s fold curtains collection</p>
+            <a href="/collections/" class="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mr-4">View All Collections</a>
+            <a href="/" class="inline-block px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">Back to Home</a>
+        </div>
+    </div>
+    <script src="/assets/js/carousel.js"></script>
+     <script src="/assets/js/smooth-scroll.js"></script>
+
+    <script>
+    // 移动端下拉菜单处理
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        dropdowns.forEach(dropdown => {
+            const button = dropdown.querySelector('button');
+            const content = dropdown.querySelector('.dropdown-content');
+            
+            if (button && content) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 在移动端切换显示状态
+                    if (window.innerWidth <= 768) {
+                        dropdown.classList.toggle('active');
+                    }
+                });
+            }
+        });
+        
+        // 点击外部关闭下拉菜单
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+    });
+    </script>
+</body>
+</html>

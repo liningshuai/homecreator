@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home Creator - Local</title>
+
+  <!-- Fonts & global app styles -->
+  <link href="/fonts/fonts.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/app-CGNHybmk.css" rel="stylesheet"/>
+  <link href="/oxygen-v2/25195/21093/43647/2228123/assets/splide.min-D3IVrRzL.css" rel="stylesheet"/>
+
+  <!-- Project main + carousel styles -->
+  <link href="/assets/css/main.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="/assets/css/carousel.css">
+
+  <style>
+    /* Local tweaks only — keep global styles in main.css */
+    body { margin:0; color:#111; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    .container { max-width:1200px; margin:0 auto; padding:0 16px; }
+    header { background:#e9f4ff; }
+
+    /* Categories grid (matching original: title + image + small heading) */
+    .category-grid { display:grid; gap:20px; grid-template-columns:repeat(4,1fr); align-items:start; }
+    .category-card { display:block; text-decoration:none; color:inherit; text-align:center; }
+    .category-card .image { width:100%; height:240px; background-size:cover; background-position:center; border-radius:6px; overflow:hidden; }
+    .category-card h3 { margin:12px 0 0; font-size:1.25rem; font-weight:600; } /* increased one step */
+    @media (max-width:1024px){ .category-grid{ grid-template-columns:repeat(2,1fr); } .category-card .image{height:200px;} }
+    @media (max-width:640px){ .category-grid{ grid-template-columns:1fr; } .category-card .image{height:220px;} }
+
+    /* About block: heading centered, body left-aligned and constrained width */
+    .about { margin-top: 36px; margin-bottom: 36px; }
+    .about h2 { text-align:center; font-size:1.75rem; margin-bottom:18px; } /* increased one step */
+    .about .about-body { max-width: 900px; margin: 0 auto; text-align:left; line-height:1.6; color:#333; font-size:1.0625rem; } /* slightly larger body text */
+    .about .about-body p { margin-bottom: 1rem; }
+
+    /* Categories title: make bigger and centered like About Us */
+    #categories { text-align: center; }
+    #categories-title { display: block; text-align: center; font-size: 1.75rem; font-weight: 600; margin-bottom: 18px; } /* increased one step */
+
+    /* Slide-over cart panel (right) */
+    .cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 260ms ease, visibility 260ms;
+      z-index: 60;
+    }
+    .cart-overlay.open { opacity: 1; visibility: visible; }
+
+    .cart-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 420px;
+      height: 100vh;
+      background: #fff;
+      box-shadow: -12px 0 30px rgba(0,0,0,0.12);
+      transform: translateX(110%);
+      transition: transform 300ms cubic-bezier(.2,.8,.2,1);
+      z-index: 70;
+      display:flex;
+      flex-direction:column;
+    }
+    .cart-panel.open { transform: translateX(0); }
+
+    .cart-panel-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px;
+      border-bottom:1px solid #eee;
+    }
+    .cart-panel-header h3 { margin:0; font-size:1.125rem; font-weight:700; }
+    .cart-panel-body {
+      padding:18px;
+      flex:1;
+      overflow:auto;
+    }
+    .cart-empty {
+      text-align:left;
+      color:#666;
+      line-height:1.6;
+      font-size:1.0625rem;
+    }
+    .cart-continue {
+      display:inline-block;
+      margin-top:16px;
+      color:#1f6feb;
+      text-decoration:underline;
+      cursor:pointer;
+      font-weight:600;
+      font-size:1.0625rem;
+    }
+
+    .btn-close {
+      background:transparent;
+      border:0;
+      padding:6px;
+      cursor:pointer;
+      font-size:18px;
+      line-height:1;
+    }
+
+    /* Small screen adjustments for panel width */
+    @media (max-width:420px) {
+      .cart-panel { max-width: 100%; }
+    }
+
+    /* Header email link tweaks to make it visually aligned with the cart icon */
+    #header-email { font-size:0.95rem; color:inherit; text-decoration:none; margin-right:12px; }
+    #header-email:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="transition-transform duration-300 sticky top-0 bg-light-cyan z-50 translate-y-0">
+    <div class="container w-full py-5 md:py-6 lg:py-8">
+      <div class="flex justify-between w-full">
+        <div class="flex items-center gap-4 md:gap-6">
+          <div class="block lg:hidden">
+            <button title="Open Menu" type="button" aria-label="Open menu">
+              <svg aria-hidden="true" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </button>
+          </div>
+
+          <a class="inline-block" href="/">
+            <img alt="Homecreator Logo" class="w-[150px] md:w-[170px] lg:w-[230px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+          </a>
+        </div>
+
+        <div class="flex items-center justify-between gap-x-4 md:gap-x-6">
+          <!-- NEW: email link placed to the left of the cart icon (visible on all sizes) -->
+          <a id="header-email" href="mailto:info@homecreator.com.au" aria-label="Email Home Creator">info@homecreator.com.au</a>
+
+          <!-- Cart button: give it an id so JS can attach behavior -->
+          <button id="cart-toggle" class="relative" title="Open Cart" type="button" aria-label="Open cart" aria-controls="cart-panel" aria-expanded="false">
+            <svg aria-hidden="true" class="relative z-0 w-6 h-6" data-slot="icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="hidden lg:block">
+        <nav class="flex items-center justify-center w-full mt-8 font-semibold text-center gap-y-6 gap-x-8 lg:justify-between" role="navigation" aria-label="Main navigation">
+          <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" href="/">Home</a>
+
+          <div class="relative inline-block font-semibold text-left group">
+            <div>
+              <a href="/collections/" class="inline-flex items-center justify-center w-full leading-none rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-black">
+                <div class="nav-item dropdown">
+                  <button class="inline-flex items-center justify-center leading-none rounded-md focus:outline-none hover:underline" aria-haspopup="true" aria-expanded="false">
+                    <span>Custom made-to-order</span>
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </button>
+                  <div class="nav-dropdown dropdown-content" aria-hidden="true">
+                    <a href="/collections/plantation-shutters/">Plantation Shutters</a>
+                    <a href="/collections/sheer-curtains/">S Fold Curtains</a>
+                    <a href="/collections/bamboo-jute-woven-roman-blinds/">Bamboo &amp; Jute Woven Roman Blinds</a>
+                    <a href="/collections/custom-blockout-roller-blinds/">Roller Blinds</a>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" href="/pages/guides">Guides</a>
+          <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" href="/pages/gallery">Gallery</a>
+          <a class="underline-offset-8 decoration-2 hover:underline px-1 leading-none" href="/pages/contact">Contact</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile simplified hero text (updated by JS) -->
+  <div class="container">
+    <div id="mobile-carousel-content" class="flex items-center justify-center w-full py-4 px-4 text-center min-h-[140px] bg-gray-200 md:hidden" aria-live="polite">
+      <div>
+        <p class="mb-2 text-sm">HOME CREATOR</p>
+        <h3 class="mb-4 text-2xl">Rethinking Roller Blinds</h3>
+        <a class="btn" href="/collections/custom-blockout-roller-blinds/">Shop Now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main hero carousel -->
+  <main>
+    <div class="carousel-container" role="region" aria-label="Homepage hero carousel">
+      <div class="slide active" data-index="0" aria-hidden="false">
+        <div class="slide-content">
+          <div class="panel">
+            <p class="eyebrow">HOME CREATOR</p>
+            <h1>Rethinking Roller Blinds</h1>
+            <a class="shop-now-btn" href="/collections/custom-blockout-roller-blinds/">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-index="1" aria-hidden="true">
+        <div class="slide-content">
+          <div class="panel">
+            <p class="eyebrow">HOME CREATOR</p>
+            <h1>Beautiful Curtains</h1>
+            <a class="shop-now-btn" href="/collections/sheer-curtains/">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-index="2" aria-hidden="true">
+        <div class="slide-content">
+          <div class="panel">
+            <p class="eyebrow">HOME CREATOR</p>
+            <h1>Elegant Plantation Shutters</h1>
+            <a class="shop-now-btn" href="/collections/plantation-shutters/">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" data-index="3" aria-hidden="true">
+        <div class="slide-content">
+          <div class="panel">
+            <p class="eyebrow">HOME CREATOR</p>
+            <h1>Classical Bamboo &amp; Jute Woven Blinds</h1>
+            <a class="shop-now-btn" href="/collections/bamboo-jute-woven-roman-blinds/">Shop Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prev/Next -->
+      <button class="carousel-nav carousel-prev" aria-label="Previous slide">&larr;</button>
+      <button class="carousel-nav carousel-next" aria-label="Next slide">&rarr;</button>
+
+      <!-- indicators -->
+      <div class="carousel-indicators" role="tablist" aria-label="Choose slide"></div>
+    </div>
+
+    <!-- Mobile image carousel fallback (splide-like) -->
+    <div class="splide" aria-hidden="true" style="display:none;">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide"><img src="/s/files/1/0677/9650/0800/files/white.jpg" alt="Rethinking Roller Blinds"></li>
+          <li class="splide__slide"><img src="/s/files/1/0677/9650/0800/files/curtains_banner.jpg" alt="Beautiful Curtains"></li>
+          <li class="splide__slide"><img src="/s/files/1/0677/9650/0800/files/shutters_banner.jpg" alt="Elegant Plantation Shutters"></li>
+          <li class="splide__slide"><img src="/s/files/1/0677/9650/0800/files/BW-2.jpg" alt="Bamboo & Jute"></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Categories: title "Categories" and only four images + headings (title centered and larger) -->
+    <section class="container my-12" aria-labelledby="categories">
+      <h2 id="categories" class="text-2xl font-semibold mb-6">
+        <span id="categories-title">Categories</span>
+      </h2>
+
+      <div class="category-grid" role="list">
+        <a class="category-card" role="listitem" href="/collections/custom-blockout-roller-blinds/" aria-label="Roller Blinds">
+          <div class="image" style="background-image:url('/s/files/1/0677/9650/0800/files/RB-1.jpg');"></div>
+          <h3>Roller Blinds</h3>
+        </a>
+
+        <a class="category-card" role="listitem" href="/collections/sheer-curtains/" aria-label="Beautiful Curtains">
+          <div class="image" style="background-image:url('/s/files/1/0677/9650/0800/files/curtains_banner.jpg');"></div>
+          <h3>Beautiful Curtains</h3>
+        </a>
+
+        <a class="category-card" role="listitem" href="/collections/plantation-shutters/" aria-label="Plantation Shutters">
+          <div class="image" style="background-image:url('/s/files/1/0677/9650/0800/files/PS-1.jpg');"></div>
+          <h3>Plantation Shutters</h3>
+        </a>
+
+        <a class="category-card" role="listitem" href="/collections/bamboo-jute-woven-roman-blinds/" aria-label="Bamboo & Jute Woven Blinds">
+          <div class="image" style="background-image:url('/s/files/1/0677/9650/0800/files/BW-2.jpg');"></div>
+          <h3>Bamboo &amp; Jute Woven Blinds</h3>
+        </a>
+      </div>
+    </section>
+
+    <!-- About Us: heading centered, text left-aligned below -->
+    <section class="container about" aria-labelledby="about-us">
+      <h2 id="about-us">About Us</h2>
+      <div class="about-body">
+        <p>
+          Home Creator online is established to provide you with the highest value for money in plantation shutters, roller blinds and all other window furnishings. We have over 50 years of combined experience in the design of quality materials and componentry to provide you with cutting edge technology for user simplicity and aesthetically complimenting any décor in your home.
+        </p>
+        <p>
+          We choose to have plantation shutters, PVC shutters, roller blinds and bamboo &amp; jute roman blinds manufactured overseas as this keeps the cost down in a market that has become very price conscious. Curtains are made in Australia. Our commitment to continue providing quality in the manufacturing of our products is not compromised.
+        </p>
+        <p>
+          High quality, lower price and good service is our company’s mission.
+        </p>
+        <p>
+          Thank you for your visiting and orders.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Slide-over cart overlay & panel -->
+  <div id="cart-overlay" class="cart-overlay" tabindex="-1" aria-hidden="true"></div>
+
+  <aside id="cart-panel" class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-heading" aria-hidden="true">
+    <div class="cart-panel-header">
+      <h3 id="cart-heading">Cart</h3>
+      <div>
+        <button id="cart-close" class="btn-close" aria-label="Close cart">&times;</button>
+      </div>
+    </div>
+    <div class="cart-panel-body">
+      <div class="cart-empty">
+        <p><strong>Looks like you haven’t added anything yet, let’s get you started!</strong></p>
+        <a id="cart-continue" class="cart-continue" href="http://0.0.0.0:8080//collections/ready-made-roller-blinds">Continue shopping →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Footer -->
+  <footer class="bg-light-cyan">
+    <div class="container py-10">
+      <div class="mb-10">
+        <nav class="grid grid-cols-2 gap-10 md:gap-20 md:flex footer-menu" aria-label="Footer menu">
+          <div class="space-y-3">
+            <legend class="font-semibold">Shop</legend>
+            <ul>
+              <li><a class="block px-1 py-1" href="/collections/">Custom made-to-order</a></li>
+              <li><a class="block px-1 py-1" href="/pages/gallery/">Gallery</a></li>
+              <li><a class="block px-1 py-1" href="/pages/quote-and-order/">Quote and Order</a></li>
+              <li><a class="block px-1 py-1" href="/pages/guides/">Installation/Measuring Guides</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-3">
+            <legend class="font-semibold">Home Creator</legend>
+            <ul>
+              <li><a class="block px-1 py-1" href="/policies/shipping-policy/">Shipping</a></li>
+              <li><a class="block px-1 py-1" href="/pages/contact/">Contact</a></li>
+              <li><a class="block px-1 py-1" href="/policies/terms-of-service/">Terms and Conditions</a></li>
+              <li><a class="block px-1 py-1" href="/policies/privacy-policy/">Privacy Policy</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-3">
+            <legend class="font-semibold">Help</legend>
+            <ul>
+              <li><a class="block px-1 py-1" href="/pages/trade-program/">Trade Program</a></li>
+              <li><a class="block px-1 py-1" href="/pages/contact/">Store Pickup</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="flex flex-col justify-between mb-8 md:items-center gap-y-6 md:flex-row md:mb-6">
+        <div>
+          <div class="flex items-center gap-2">
+            <a class="flex items-center gap-2" href="https://www.facebook.com/HomeCreatorAU" rel="noreferrer" target="_blank" title="Facebook">
+              <svg class="w-5 h-5" viewBox="0 0 12.498 26.773"><path d="M230.953,156.629v-13.4h4.423l.7-4.442h-5.122v-2.227c0-1.159.38-2.265,2.044-2.265h3.325v-4.434H231.6c-3.969,0-5.052,2.614-5.052,6.237v2.688h-2.723v4.444h2.723v13.4Z" transform="translate(-223.825 -129.856)"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <a class="inline-block" href="/">
+          <img alt="Homecreator Logo" class="w-[170px] h-auto" src="/oxygen-v2/25195/21093/43647/2228123/assets/hc_logo-BRDea7gS.png"/>
+        </a>
+      </div>
+
+      <div class="flex flex-col justify-between gap-5 md:gap-0 md:flex-row">
+        <p class="order-2 text-center md:order-1 md:text-left">© 2025 Home Creator. All Rights Reserved. Home Creator is proudly founded and based in Australia.</p>
+        <div class="order-1 mx-auto md:order-2 md:mr-0">
+          <img alt="Mastercard, Paypal, Visa, Afterpay" class="w-[140px] h-auto" src="/s/files/1/0677/9650/0800/files/payment-options-hc.png" width="140" height="21.5"/>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS -->
+  <script src="/assets/js/carousel.js"></script>
+  <script src="/assets/js/smooth-scroll.js"></script>
+
+  <script>
+    // Cart slide-over behavior
+    (function() {
+      const cartToggle = document.getElementById('cart-toggle');
+      const cartPanel = document.getElementById('cart-panel');
+      const cartOverlay = document.getElementById('cart-overlay');
+      const cartClose = document.getElementById('cart-close');
+      const cartContinue = document.getElementById('cart-continue');
+
+      // target URL for "Continue shopping" exactly as requested
+      const continueUrl = "http://0.0.0.0:8080//collections/ready-made-roller-blinds";
+
+      function openCart() {
+        cartPanel.classList.add('open');
+        cartOverlay.classList.add('open');
+        cartPanel.setAttribute('aria-hidden', 'false');
+        cartOverlay.setAttribute('aria-hidden', 'false');
+        cartToggle.setAttribute('aria-expanded', 'true');
+        // prevent body scroll
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        // focus management
+        cartClose.focus();
+      }
+
+      function closeCart() {
+        cartPanel.classList.remove('open');
+        cartOverlay.classList.remove('open');
+        cartPanel.setAttribute('aria-hidden', 'true');
+        cartOverlay.setAttribute('aria-hidden', 'true');
+        cartToggle.setAttribute('aria-expanded', 'false');
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        cartToggle.focus();
+      }
+
+      // Attach events
+      if (cartToggle) {
+        cartToggle.addEventListener('click', function(e) {
+          e.stopPropagation();
+          openCart();
+        });
+      }
+      if (cartClose) {
+        cartClose.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeCart();
+        });
+      }
+      if (cartOverlay) {
+        cartOverlay.addEventListener('click', function() {
+          closeCart();
+        });
+      }
+
+      // Escape key closes panel
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && cartPanel.classList.contains('open')) {
+          closeCart();
+        }
+      });
+
+      // Ensure continue-shopping always navigates even if some global handler prevents default
+      if (cartContinue) {
+        cartContinue.addEventListener('click', function(e) {
+          e.preventDefault();
+          // close panel before navigate (optional)
+          closeCart();
+          // force navigation
+          window.location.href = continueUrl;
+        });
+      }
+
+      // Prevent focus from leaving panel when open (simple focus trap)
+      document.addEventListener('focus', function(e) {
+        if (cartPanel.classList.contains('open')) {
+          if (!cartPanel.contains(e.target)) {
+            e.stopPropagation();
+            cartClose.focus();
+          }
+        }
+      }, true);
+    })();
+  </script>
+</body>
+</html>
